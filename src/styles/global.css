@@ -382,3 +382,17 @@ input[type='search']::-moz-search-cancel-button {
 .animate-slide-down {
   animation: slide-down 0.3s ease-out forwards;
 }
+
+/* 文章正文里的链接自动换行 */
+.markdown a {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+/* 如果链接出现在代码块或内联代码里 */
+.markdown pre,
+.markdown code {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
