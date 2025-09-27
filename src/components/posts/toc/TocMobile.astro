@@ -42,7 +42,7 @@ const getRelativeIndentClass = (depth: number) => {
           <div class="flex gap-4 items-center min-w-0 flex-1">
             <SimpleProgressRing size={16} strokeWidth={2} class="flex-shrink-0" />
             <span id="mobile-toc-current-section" class="text-sm font-medium text-foreground/80 truncate">
-              Overview
+              OverView
             </span>
           </div>
           <div class="flex items-center gap-2 pl-2">
@@ -97,9 +97,8 @@ const getRelativeIndentClass = (depth: number) => {
 }
 
 <script>
-  const INITIAL_OVERVIEW_TEXT = 'Overview'
+  const INITIAL_OVERVIEW_TEXT = 'OverView'
 
-  // 全局状态管理
   class MobileTOC {
     // DOM 元素
     private static tocContainer: HTMLElement | null = null
@@ -123,6 +122,12 @@ const getRelativeIndentClass = (depth: number) => {
     private static scrollRAF: number | null = null
     private static recentlyOpened = false
     private static lastOpenTime = 0 // 记录打开的时间戳
+
+    // 新增：保存事件处理器引用
+    private static toggleButtonHandler: ((e: Event) => void) | null = null
+    private static listClickHandler: ((e: Event) => void) | null = null
+    private static scrollAreaHandler: ((e: Event) => void) | null = null
+    private static windowScrollHandler: ((e: Event) => void) | null = null
 
     // 初始化
     static init(): void {
@@ -299,16 +304,27 @@ const getRelativeIndentClass = (depth: number) => {
     private static initInteractions(): void {
       // 切换按钮
       const toggleButton = document.querySelector('[data-toc-toggle]')
-      toggleButton?.addEventListener('click', () => {
-        if (!this.isOpen) {
-          this.setRecentlyOpened()
+      if (toggleButton) {
+        // 移除旧监听器
+        if (this.toggleButtonHandler) {
+          toggleButton.removeEventListener('click', this.toggleButtonHandler)
         }
-        this.toggle()
-      })
+        // 重新绑定
+        this.toggleButtonHandler = () => {
+          if (!this.isOpen) {
+            this.setRecentlyOpened()
+          }
+          this.toggle()
+        }
+        toggleButton.addEventListener('click', this.toggleButtonHandler)
+      }
 
       // 目录项点击
       if (this.listElement) {
-        this.listElement.addEventListener('click', (e) => {
+        if (this.listClickHandler) {
+          this.listElement.removeEventListener('click', this.listClickHandler)
+        }
+        this.listClickHandler = (e: Event) => {
           const target = e.target as HTMLElement
           const item = target.closest('.mobile-toc-item') as HTMLElement
           if (!item) return
@@ -316,11 +332,9 @@ const getRelativeIndentClass = (depth: number) => {
           e.preventDefault()
 
           if (!this.isOpen) {
-            // 收缩状态：打开目录
             this.setRecentlyOpened()
             this.setOpen(true)
           } else {
-            // 展开状态：关闭目录并跳转
             this.setOpen(false)
             setTimeout(() => {
               const href = item.getAttribute('href')
@@ -339,18 +353,28 @@ const getRelativeIndentClass = (depth: number) => {
               }
             }, 300)
           }
-        })
+        }
+        this.listElement.addEventListener('click', this.listClickHandler)
       }
 
       // 滚动区域遮罩
-      this.scrollArea?.addEventListener('scroll', () => this.updateScrollMask(), { passive: true })
+      if (this.scrollArea) {
+        if (this.scrollAreaHandler) {
+          this.scrollArea.removeEventListener('scroll', this.scrollAreaHandler)
+        }
+        this.scrollAreaHandler = () => this.updateScrollMask()
+        this.scrollArea.addEventListener('scroll', this.scrollAreaHandler, { passive: true })
+      }
     }
 
-    // 初始化滚动处理
     private static initScrollHandler(): void {
       let headingUpdateRAF: number | null = null
 
-      const handleScroll = () => {
+      // 新增：保存 window scroll handler
+      if (this.windowScrollHandler) {
+        window.removeEventListener('scroll', this.windowScrollHandler)
+      }
+      this.windowScrollHandler = () => {
         if (this.scrollRAF) return
 
         this.scrollRAF = requestAnimationFrame(() => {
@@ -388,8 +412,7 @@ const getRelativeIndentClass = (depth: number) => {
           this.scrollRAF = null
         })
       }
-
-      window.addEventListener('scroll', handleScroll, { passive: true })
+      window.addEventListener('scroll', this.windowScrollHandler, { passive: true })
     }
 
     // 设置免疫期
@@ -498,6 +521,25 @@ const getRelativeIndentClass = (depth: number) => {
       if (this.scrollRAF) {
         cancelAnimationFrame(this.scrollRAF)
         this.scrollRAF = null
+      }
+
+      // 新增：移除事件监听器
+      const toggleButton = document.querySelector('[data-toc-toggle]')
+      if (toggleButton && this.toggleButtonHandler) {
+        toggleButton.removeEventListener('click', this.toggleButtonHandler)
+        this.toggleButtonHandler = null
+      }
+      if (this.listElement && this.listClickHandler) {
+        this.listElement.removeEventListener('click', this.listClickHandler)
+        this.listClickHandler = null
+      }
+      if (this.scrollArea && this.scrollAreaHandler) {
+        this.scrollArea.removeEventListener('scroll', this.scrollAreaHandler)
+        this.scrollAreaHandler = null
+      }
+      if (this.windowScrollHandler) {
+        window.removeEventListener('scroll', this.windowScrollHandler)
+        this.windowScrollHandler = null
       }
 
       // 重置状态
