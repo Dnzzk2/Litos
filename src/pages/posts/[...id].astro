@@ -30,16 +30,16 @@ const { Content, headings, remarkPluginFrontmatter } = await render(post)
 const filterHeadings = headings.filter((heading: any) => heading.slug !== 'footnote-label')
 
 const hasValidHeadings = filterHeadings.length > 1
-type LayoutKey = 'metaOnly' | 'coverSplit' | 'coverTop';
+type LayoutKey = 'metaOnly' | 'coverSplit' | 'coverTop'
 
 const layoutMap: Record<LayoutKey, any> = {
   metaOnly: MetaOnly,
   coverSplit: CoverSplit,
   coverTop: CoverTop,
-};
+}
 
-const layoutKey: LayoutKey = (frontmatter.postType as LayoutKey) || POSTS_CONFIG.postType as LayoutKey;
-const PostLayout = layoutMap[layoutKey];
+const layoutKey: LayoutKey = (frontmatter.postType as LayoutKey) || (POSTS_CONFIG.postType as LayoutKey)
+const PostLayout = layoutMap[layoutKey]
 ---
 
 <Layout
@@ -47,9 +47,9 @@ const PostLayout = layoutMap[layoutKey];
   description={frontmatter.description || frontmatter.title}
   image={frontmatter.ogImage?.src ? `${SITE.website}${frontmatter.ogImage.src}` : SITE.ogImage}
 >
-  <div transition:animate="none">
-    <div class="relative flex flex-col justify-between h-fit z-[1]">
-      <TocMobile {post} {posts} headings={filterHeadings} />
+  <div class="relative flex flex-col justify-between h-fit z-[1]">
+    <TocMobile {post} {posts} headings={filterHeadings} />
+    <div transition:animate="none">
       <PostLayout {frontmatter} minutesRead={remarkPluginFrontmatter.minutesRead}>
         <Content />
       </PostLayout>
