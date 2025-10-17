@@ -1,0 +1,254 @@
+@font-face {
+  font-family: 'Numbers';
+  src: url('/fonts/GeistVF.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'CJKEmDash';
+  unicode-range: U+2014, U+2E3A-2E3B;
+  src: url('/fonts/ZhudouSansVF-subset.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Lexend';
+  src: url('/fonts/Lexend-VariableFont_wght.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GeistMono';
+  src: url('/fonts/GeistMono.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  scrollbar-color: hsl(var(--scrollbar)) hsl(var(--scrollbar-bg));
+  scrollbar-width: thin;
+}
+
+:root {
+  --font-lexend: 'Lexend', 'CJKEmDash', 'Numbers', 'ShangguSansSC-VF', sans-serif;
+  --font-sans: 'CJKEmDash', 'Numbers', 'ShangguSansSC-VF', sans-serif;
+  --font-geist-mono: 'GeistMono', 'Input Mono', 'Fira Code', 'ShangguSansSC-VF', monospace;
+  --background: 255 100% 100%;
+  --foreground: 225 15% 12%;
+  --scrollbar: 220 20% 80%;
+  --scrollbar-bg: 220 25% 95%;
+  --belonging-color: #9ea0a6;
+  --muted-foreground: 225 10% 40%;
+  --border: 220 20% 90%;
+  --accent: 220 25% 94%;
+}
+
+.dark {
+  --background: 240 10% 4%;
+  --foreground: 0 0% 98%;
+  --scrollbar: 240 10% 30%;
+  --scrollbar-bg: 240 10% 15%;
+  --belonging-color: #9ea0a6;
+  --muted-foreground: 240 5% 64.9%;
+  --border: 240 3.7% 15.9%;
+  --accent: 240 3.7% 15.9%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light;
+  background-color: hsl(var(--background));
+  font-family: var(--font-sans);
+  scroll-behavior: smooth;
+  @variant dark {
+    color-scheme: dark;
+  }
+}
+
+/* 当根元素带有 .dark 类时，启用深色 UA 颜色方案 */
+.dark html {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--background));
+  max-width: 48rem;
+  margin: 0 auto;
+  padding: 0px 24px;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-lexend);
+}
+
+h1 {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+a {
+  text-underline-offset: 2px;
+  color: inherit;
+}
+
+.belonging {
+  margin-top: 10px;
+  color: var(--belonging-color);
+  font-size: 12px;
+  margin-bottom: 10px;
+}
+
+header {
+  padding-top: 80px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.subtitle {
+  color: hsl(var(--muted-foreground));
+  line-height: 1.75;
+  margin-bottom: 10px;
+}
+
+.button {
+  /* sizing tokens */
+  --btn-h: 28px;
+  --btn-px: 12px;
+  --btn-fs: 13px;
+  --btn-gap: 6px;
+  --btn-icon: 14px;
+
+  display: inline-flex;
+  background-color: transparent;
+  color: hsl(var(--muted-foreground));
+  text-decoration: none;
+  font-size: var(--btn-fs);
+  font-weight: 500;
+  height: var(--btn-h);
+  line-height: var(--btn-h);
+  border-radius: 9999px;
+  padding: 0 var(--btn-px);
+  gap: var(--btn-gap);
+  align-items: center;
+  justify-content: center;
+  transition:
+    background-color 0.2s ease-in-out,
+    color 0.2s ease-in-out,
+    border-color 0.2s ease-in-out;
+  white-space: nowrap;
+  vertical-align: middle;
+  border: 1px solid hsl(var(--border));
+}
+
+.button:hover {
+  background-color: hsl(var(--foreground));
+  border-color: hsl(var(--foreground));
+  color: hsl(var(--background));
+}
+
+.button svg {
+  width: var(--btn-icon);
+  height: var(--btn-icon);
+  stroke: hsl(var(--muted-foreground));
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  display: block;
+}
+
+.button:hover svg {
+  stroke: hsl(var(--background));
+}
+
+.button:focus-visible {
+  outline: 2px solid hsl(var(--border));
+  outline-offset: 2px;
+}
+
+.button:active {
+  transform: translateY(0.5px);
+}
+
+/* Posts list */
+.posts {
+  list-style: none;
+  margin: 24px 0;
+}
+
+.post {
+  padding: 16px 0;
+}
+
+.post:last-child {
+  border-bottom: 0;
+}
+
+.post a {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.post a:hover {
+  text-decoration: underline;
+}
+
+.post time {
+  font-family: var(--font-geist-mono);
+  color: hsl(var(--muted-foreground));
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/* New structured post layout */
+.post .post-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.post .title {
+  line-height: 1.6;
+  font-weight: 500;
+}
+
+.post .meta {
+  margin-top: 6px;
+}
+
+.post .badge {
+  display: inline-block;
+  padding: 0 6px;
+  height: 20px;
+  line-height: 20px;
+  font-size: 11px;
+  border-radius: 9999px;
+  color: hsl(var(--muted-foreground));
+  background-color: hsl(var(--accent));
+  margin-right: 8px;
+  border: 1px solid hsl(var(--border));
+}
+
+.post .summary {
+  margin-top: 6px;
+  color: hsl(var(--muted-foreground));
+  line-height: 1.75;
+  font-size: 14px;
+}
+
+.post + .post {
+  margin-top: 16px;
+}
