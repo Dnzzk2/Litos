@@ -140,8 +140,13 @@ const { id, title } = Astro.props
     color: var(--color-text-secondary);
   }
 
-  .dark .gt-header-textarea {
-    background-color: #24273a !important;
+  .dark .gt-header-textarea,
+  .dark .gt-popup {
+    background-color: #181926 !important;
+    border-color: var(--color-border) !important;
+  }
+  .dark .gt-container .gt-copyright {
+    border-color: var(--color-border) !important;
   }
   .dark .gt-comment-content {
     background-color: #181926 !important;
