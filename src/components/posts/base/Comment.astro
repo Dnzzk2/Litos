@@ -1,0 +1,22 @@
+---
+import { COMMENT_CONFIG } from '~/config'
+import Gitalk from './Gitalk.astro'
+
+interface Props {
+  id: string
+  title: string
+}
+
+const { id, title } = Astro.props
+const { enabled, system } = COMMENT_CONFIG
+
+if (!enabled || system === 'none') {
+  return null
+}
+---
+
+<div class="comment-container">
+  <h3 class="text-xl font-semibold mb-6 text-[var(--color-heading)]">评论</h3>
+
+  {system === 'gitalk' && <Gitalk id={id} title={title} />}
+</div>

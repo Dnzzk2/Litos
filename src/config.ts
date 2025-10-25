@@ -1,4 +1,5 @@
 import type {
+  CommentConfig,
   GithubConfig,
   Link,
   PhotoData,
@@ -212,6 +213,24 @@ export const POSTS_CONFIG: PostConfig = {
   nextPostText: 'Next Post',
   prevPostText: 'Previous Post',
   recommendText: 'REC',
+}
+
+export const COMMENT_CONFIG: CommentConfig = {
+  enabled: true,
+  system: 'gitalk',
+  gitalk: {
+    clientID: import.meta.env.PUBLIC_GITHUB_CLIENT_ID,
+    clientSecret: import.meta.env.PUBLIC_GITHUB_CLIENT_SECRET,
+    repo: 'gitalk-comment',
+    owner: 'Dnzzk2',
+    admin: ['Dnzzk2'],
+    language: 'zh-CN',
+    perPage: 5,
+    pagerDirection: 'last',
+    createIssueManually: false,
+    distractionFreeMode: false,
+    enableHotKey: true,
+  },
 }
 
 export const TAGS_CONFIG: TagsConfig = {

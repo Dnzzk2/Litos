@@ -233,3 +233,23 @@ export interface PhotoData {
   photos: Photo[]
   travel?: string
 }
+
+export interface GitalkConfig {
+  clientID: string
+  clientSecret: string
+  repo: string
+  owner: string
+  admin: string[]
+  language?: string
+  perPage?: number
+  pagerDirection?: 'last' | 'first'
+  createIssueManually?: boolean
+  distractionFreeMode?: boolean
+  enableHotKey?: boolean
+}
+
+export interface CommentConfig {
+  enabled: boolean
+  system: 'gitalk' | 'artalk' | 'waline' | 'none'
+  gitalk?: GitalkConfig
+}

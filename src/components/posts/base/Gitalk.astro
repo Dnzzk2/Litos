@@ -1,0 +1,153 @@
+---
+interface Props {
+  id: string
+  title: string
+}
+
+const { id, title } = Astro.props
+---
+
+<div id="gitalk-container" data-id={id} data-title={title}></div>
+
+<script>
+  import { COMMENT_CONFIG } from '~/config'
+  const { gitalk } = COMMENT_CONFIG
+
+  let observer: IntersectionObserver | null = null
+  let isInitialized = false
+
+  function initGitalk() {
+    if (!gitalk || isInitialized) return
+    isInitialized = true
+
+    import('gitalk/dist/gitalk.css')
+    import('gitalk').then(({ default: Gitalk }) => {
+      const container = document.getElementById('gitalk-container')
+      if (!container) return
+
+      const id = container.dataset.id || ''
+      const title = container.dataset.title || ''
+
+      const gitalkComment = new Gitalk({
+        clientID: gitalk.clientID,
+        clientSecret: gitalk.clientSecret,
+        repo: gitalk.repo,
+        owner: gitalk.owner,
+        admin: gitalk.admin,
+        language: gitalk.language || 'zh-CN',
+        perPage: gitalk.perPage || 5,
+        pagerDirection: gitalk.pagerDirection || 'last',
+        createIssueManually: gitalk.createIssueManually || false,
+        distractionFreeMode: gitalk.distractionFreeMode || false,
+        enableHotKey: gitalk.enableHotKey !== false,
+        id: id,
+        title: title,
+      })
+      gitalkComment.render('gitalk-container')
+    })
+  }
+
+  function isElementInViewport(element: Element) {
+    const rect = element.getBoundingClientRect()
+    const windowHeight = window.innerHeight || document.documentElement.clientHeight
+    return rect.top <= windowHeight + 300 && rect.bottom >= -300
+  }
+
+  function setupObserver() {
+    const container = document.getElementById('gitalk-container')
+    if (!container) return
+
+    // 清理之前的观察器
+    cleanup()
+
+    // 检查是否已经在可视区域内
+    if (isElementInViewport(container)) {
+      initGitalk()
+      return
+    }
+
+    // 设置观察器监听
+    observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !isInitialized) {
+            initGitalk()
+            cleanup()
+          }
+        })
+      },
+      {
+        rootMargin: '300px',
+        threshold: 0,
+      }
+    )
+
+    observer.observe(container)
+  }
+
+  function cleanup() {
+    if (observer) {
+      observer.disconnect()
+      observer = null
+    }
+  }
+
+  // 重置函数，在页面切换时调用
+  function resetAndInitialize() {
+    isInitialized = false // 关键：重置初始化状态
+    cleanup()
+    setupObserver()
+  }
+
+  // 初始设置
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupObserver)
+  } else {
+    setupObserver()
+  }
+
+  document.addEventListener('astro:page-load', resetAndInitialize)
+
+  document.addEventListener('astro:before-preparation', cleanup)
+  window.addEventListener('beforeunload', cleanup)
+</script>
+
+<style is:global>
+  #gitalk-container {
+    min-height: 10px;
+  }
+  .markdown-body {
+    font-family: 'CJKEmDash', 'Numbers', 'ShangguSansSC-VF', sans-serif !important;
+    font-size: 0.875rem !important;
+  }
+  .gt-container .gt-comment-body.markdown-body {
+    color: var(--color-text-secondary) !important;
+  }
+
+  .dark .gt-header-preview.markdown-body {
+    background-color: #24273a !important;
+    color: #f6f6f6 !important;
+  }
+
+  .dark .gt-container .gt-meta {
+    border-color: var(--color-border) !important;
+  }
+  .dark .gt-svg {
+    fill: #a1a1aa !important;
+  }
+  .gt-counts,
+  .gt-user-name {
+    color: var(--color-text-secondary);
+  }
+
+  .dark .gt-header-textarea {
+    background-color: #24273a !important;
+  }
+  .dark .gt-comment-content {
+    background-color: #181926 !important;
+  }
+  .dark .gt-comment-content:hover {
+    -webkit-box-shadow: 0 0.625em 3.75em 0 #0f1d3c !important;
+    box-shadow: 0 0.625em 3.75em #0f1d3c !important;
+  }
+</style>
