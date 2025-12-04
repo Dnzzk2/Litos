@@ -1,3 +1,5 @@
+import type { ImageMetadata } from 'astro'
+
 /**
  * 站点基础信息类型 / Site basic information type
  * @description 包含站点标题和描述 / Contains site title and description
@@ -7,6 +9,7 @@
  * @property {string} author - 作者名称 / Author name
  * @property {string} website - 网站地址 / Website address
  * @property {string} ogImage - OGP 图片地址 / OGP image address
+ * @property {boolean} transition - 是否启用过渡动画 / Whether to enable transition animation
  */
 export type Site = {
   title: string
@@ -16,6 +19,7 @@ export type Site = {
   author: string
   website: string
   ogImage: string
+  transition: boolean
 }
 
 /**
@@ -28,7 +32,7 @@ export type CoverLayout = 'left' | 'right'
  * 文章卡片类型 / PostCardType
  * @description 可选值为 'compact' 、'image' 和 'time-line' / Possible values: 'compact', 'image' and 'timeLine'
  */
-export type PostCardType = 'compact' | 'image' | 'time-line' | 'minimal'
+export type PostCardType = 'compact' | 'image' | 'time-line' | 'minimal' | 'cover'
 
 /**
  * 文章卡片页面基础配置接口 / Post card page configuration interface
@@ -185,7 +189,7 @@ export type PolaroidVariant = '1x1' | '4x5' | '4x3' | '9x16'
 
 /**
  * 图片配置接口 / Photo configuration interface
- * @property {string} src - 图片路径 / Image path
+ * @property {string | ImageMetadata} src - 图片路径 / Image path
  * @property {string} alt - 图片描述 / Image description
  * @property {number} width - 图片宽度 / Image width
  * @property {number} height - 图片高度 / Image height
@@ -196,7 +200,7 @@ export type PolaroidVariant = '1x1' | '4x5' | '4x3' | '9x16'
  * @property {string} description - 图片描述 / Image description
  */
 export interface Photo {
-  src: string
+  src: string | ImageMetadata
   alt: string
   width: number
   height: number
@@ -246,6 +250,21 @@ export interface GitalkConfig {
   createIssueManually?: boolean
   distractionFreeMode?: boolean
   enableHotKey?: boolean
+}
+
+export interface AnalyticsConfig {
+  busuanzi?: {
+    enabled: boolean
+  }
+  umami?: {
+    enabled: boolean
+    websiteId: string
+    serverUrl: string
+  }
+  google?: {
+    enabled: boolean
+    id: string
+  }
 }
 
 export interface CommentConfig {

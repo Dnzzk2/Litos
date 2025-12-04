@@ -1,4 +1,5 @@
 ---
+import PageTitle from '~/components/base/PageTitle.astro'
 import { TAGS_CONFIG } from '~/config'
 import Layout from '~/layouts/Layout.astro'
 import { getAllPosts } from '~/lib/data'
@@ -22,12 +23,7 @@ const maxCount = Math.max(...sortedTags.map((t) => t.count))
   <div class="relative z-[1] py-8 pb-10 px-6 sm:px-8">
     <!-- 标题区域 -->
     <div class="mb-12">
-      <h1 class="tracking-tight text-4xl sm:text-5xl bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent pb-1.5">
-        {title}
-      </h1>
-      <div class="pro text-muted-foreground text-balance">
-        <p class="mt-2 text-sm sm:text-base">{introduce}</p>
-      </div>
+      <PageTitle {title} {introduce} />
 
       <!-- 统计信息 -->
       <div class="mt-6 flex items-center gap-6 text-sm text-muted-foreground">
@@ -43,7 +39,7 @@ const maxCount = Math.max(...sortedTags.map((t) => t.count))
     </div>
 
     <!-- 标签网格 -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" data-astro-transition="animate">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 fade-up" data-astro-transition="animate">
       {
         sortedTags.map((tag, index) => {
           const sizeClass = tag.count >= 10 ? 'text-base' : tag.count >= 5 ? 'text-sm' : 'text-xs'

@@ -10,7 +10,7 @@ interface Props {
 const { prev, next } = Astro.props
 ---
 
-<nav class="flex flex-col sm:flex-row justify-between gap-6 mt-16 pt-8 border-t border-border/50 fade-up animation-delay-150">
+<nav class="flex flex-col sm:flex-row justify-between gap-6 pt-2 border-t border-border/50">
   {
     next && (
       <a href={`/posts/${next.id}`} class="group flex-1 relative">

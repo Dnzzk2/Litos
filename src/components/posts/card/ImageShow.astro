@@ -1,13 +1,13 @@
 ---
+import LqipImage from '~/components/base/LqipImage.astro'
 import { formatDate } from '~/lib/utils'
 import { POSTS_CONFIG } from '~/config'
-import type { CardProps } from './List.astro'
 import Badge from '~/components/posts/base/Badge.astro'
-import LqipImage from '~/components/base/LqipImage.astro'
+import type { CardProps } from './List.astro'
 
 interface Props extends CardProps {}
 
-const { post, index, coverLayout }: Props = Astro.props
+const { post, index, coverLayout, class: className, style }: Props = Astro.props
 
 // 固定图片尺寸为 1200*630，宽高比约为 1.9:1
 const IMAGE_WIDTH = 1200
@@ -18,8 +18,8 @@ const isReverse = imagePosition === 'right'
 const recommendText = POSTS_CONFIG.recommendText
 ---
 
-<article class={`group flex flex-col sm:flex-row gap-6 sm:gap-10 ${isReverse ? 'sm:flex-row-reverse' : ''}`}>
-  <div class="sm:w-2/6 flex flex-col overflow-hidden">
+<article class:list={[`group flex flex-col sm:flex-row gap-6 sm:gap-10 ${isReverse ? 'sm:flex-row-reverse' : ''}`, className]} {style}>
+  <div class="sm:w-2/6 min-[var(--layout-change-width)]:w-2/8 flex flex-col overflow-hidden">
     <a href={`/posts/${post.id}`} class="block relative">
       <div class="aspect-[1200/630] overflow-hidden bg-muted/30 relative">
         {
@@ -47,7 +47,7 @@ const recommendText = POSTS_CONFIG.recommendText
     </a>
   </div>
 
-  <div class="w-full sm:w-4/6 flex flex-col justify-start">
+  <div class="w-full sm:w-4/6 min-[var(--layout-change-width)]:w-6/8 flex flex-col justify-start">
     <div class="flex flex-wrap items-center gap-4 text-sm text-muted-foreground/90 mb-2">
       <time class="flex items-center gap-2">
         <span class="icon-[ph--calendar-blank] size-4"></span>
@@ -76,12 +76,12 @@ const recommendText = POSTS_CONFIG.recommendText
       {post.data.tags?.map((tag) => <Badge type="tag" content={tag} />)}
     </div>
 
-    <a
+    <!-- <a
       href={`/posts/${post.id}`}
       class="sm:hidden mt-auto inline-flex items-center gap-2 text-sm font-medium text-foreground/90 hover:text-primary transition-colors group/read"
     >
       {POSTS_CONFIG.readMoreText}
       <span class="icon-[ph--arrow-right] size-4 transition-transform group-hover/read:translate-x-1"></span>
-    </a>
+    </a> -->
   </div>
 </article>

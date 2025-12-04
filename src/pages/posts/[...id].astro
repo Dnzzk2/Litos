@@ -11,6 +11,7 @@ import { render } from 'astro:content'
 import { getAllPosts } from '~/lib/data'
 import SectionDivider from '~/components/base/SectionDivider.astro'
 import Comment from '~/components/posts/base/Comment.astro'
+import License from '~/components/posts/base/License.astro'
 
 export async function getStaticPaths() {
   const sortedPosts = await getAllPosts()
@@ -51,15 +52,25 @@ const PostLayout = layoutMap[layoutKey]
 >
   <div class="relative flex flex-col justify-between h-fit z-[1]">
     <TocMobile {post} {posts} headings={filterHeadings} />
-    <div transition:animate="none">
-      <PostLayout {frontmatter} minutesRead={remarkPluginFrontmatter.minutesRead}>
-        <Content />
-      </PostLayout>
-      <div class="px-6 sm:px-8 pb-6 sm:pb-8">
-        {posts.length > 1 && <PostNavigation {prev} {next} />}
-      </div>
-      {hasValidHeadings && <PostFeatures {post} {posts} headings={filterHeadings} />}
-    </div>
+    <PostLayout {frontmatter} minutesRead={remarkPluginFrontmatter.minutesRead}>
+      <Content />
+      {
+        frontmatter.license && (
+          <>
+            <hr class="pb-6" />
+            <License license={frontmatter.license} title={frontmatter.title} author={frontmatter.author} />
+          </>
+        )
+      }
+    </PostLayout>
+    {
+      posts.length > 1 && (
+        <div class="px-6 sm:px-8 pb-6 sm:pb-8">
+          <PostNavigation {prev} {next} />
+        </div>
+      )
+    }
+    {hasValidHeadings && <PostFeatures {post} {posts} headings={filterHeadings} />}
     <SectionDivider />
     <div class="px-6 py-6 sm:px-8 pb-6 sm:pb-8">
       <Comment id={post.id} title={frontmatter.title} />

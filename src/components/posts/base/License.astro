@@ -1,0 +1,186 @@
+---
+import { cn } from '~/lib/utils'
+
+interface Props {
+  license?: string
+  title: string
+  author: string
+  url?: string
+  class?: string
+}
+
+const { license, title, author, url, class: className } = Astro.props
+
+// 如果没有 license，不显示组件
+if (!license) {
+  return null
+}
+
+// 许可证配置映射
+const licenseConfig: Record<string, { name: string; url: string; icon: string; description: string }> = {
+  'CC-BY-4.0': {
+    name: 'CC BY 4.0',
+    url: 'https://creativecommons.org/licenses/by/4.0/',
+    icon: 'icon-[simple-icons--creativecommons]',
+    description: 'Attribution 4.0 International',
+  },
+  'CC-BY-SA-4.0': {
+    name: 'CC BY-SA 4.0',
+    url: 'https://creativecommons.org/licenses/by-sa/4.0/',
+    icon: 'icon-[simple-icons--creativecommons]',
+    description: 'Attribution-ShareAlike 4.0 International',
+  },
+  'CC-BY-NC-4.0': {
+    name: 'CC BY-NC 4.0',
+    url: 'https://creativecommons.org/licenses/by-nc/4.0/',
+    icon: 'icon-[simple-icons--creativecommons]',
+    description: 'Attribution-NonCommercial 4.0 International',
+  },
+  'CC-BY-NC-SA-4.0': {
+    name: 'CC BY-NC-SA 4.0',
+    url: 'https://creativecommons.org/licenses/by-nc-sa/4.0/',
+    icon: 'icon-[simple-icons--creativecommons]',
+    description: 'Attribution-NonCommercial-ShareAlike 4.0 International',
+  },
+  'CC-BY-ND-4.0': {
+    name: 'CC BY-ND 4.0',
+    url: 'https://creativecommons.org/licenses/by-nd/4.0/',
+    icon: 'icon-[simple-icons--creativecommons]',
+    description: 'Attribution-NoDerivatives 4.0 International',
+  },
+  'CC-BY-NC-ND-4.0': {
+    name: 'CC BY-NC-ND 4.0',
+    url: 'https://creativecommons.org/licenses/by-nc-nd/4.0/',
+    icon: 'icon-[simple-icons--creativecommons]',
+    description: 'Attribution-NonCommercial-NoDerivatives 4.0 International',
+  },
+  'MIT': {
+    name: 'MIT License',
+    url: 'https://opensource.org/licenses/MIT',
+    icon: 'icon-[mdi--license]',
+    description: 'MIT License',
+  },
+  'Apache-2.0': {
+    name: 'Apache License 2.0',
+    url: 'https://www.apache.org/licenses/LICENSE-2.0',
+    icon: 'icon-[mdi--license]',
+    description: 'Apache License 2.0',
+  },
+  'GPL-3.0': {
+    name: 'GPL v3.0',
+    url: 'https://www.gnu.org/licenses/gpl-3.0.html',
+    icon: 'icon-[mdi--license]',
+    description: 'GNU General Public License v3.0',
+  },
+}
+
+const config = licenseConfig[license] || {
+  name: license,
+  url: '',
+  icon: 'icon-[mdi--license]',
+  description: license,
+}
+
+const currentUrl =
+  url ||
+  (() => {
+    const urlObj = new URL(Astro.url.href)
+    if (urlObj.pathname.endsWith('.html')) {
+      urlObj.pathname = urlObj.pathname.replace(/\.html$/, '')
+    }
+    return urlObj.toString()
+  })()
+---
+
+<div
+  class={cn(
+    'license-container  relative overflow-hidden border border-border/50 bg-gradient-to-br from-muted/30 via-muted/20 to-background/50 backdrop-blur-sm p-3 sm:p-4 transition-all duration-300 hover:border-border ',
+    className
+  )}
+>
+  <div class="absolute inset-0 bg-grid-pattern opacity-[0.02] dark:opacity-[0.05] pointer-events-none"></div>
+
+  <div class="absolute bottom-0 right-1.5 sm:bottom-3.5 sm:right-3 cursor-default">
+    <div
+      class="text-[2rem] sm:text-[6rem] font-bold text-muted-foreground/[0.08] dark:text-muted-foreground/[0.12] select-none leading-none icon-[lucide--copyright]"
+    >
+    </div>
+  </div>
+
+  <div class="relative space-y-2.5 sm:space-y-3 text-xs sm:text-sm">
+    <div class="flex items-start sm:items-center gap-2">
+      <span class="icon-[lucide--pen-line] text-primary/70 mt-0.5 flex-shrink-0 text-sm sm:text-base"></span>
+      <div class="flex-1 min-w-0">
+        <span class="text-muted-foreground/80">Author: </span>
+        <span class="font-medium text-foreground/80">{author}</span>
+      </div>
+    </div>
+
+    <div class="flex items-start sm:items-center gap-2">
+      <span class="icon-[lucide--book-open] text-primary/70 mt-0.5 flex-shrink-0 text-sm sm:text-base"></span>
+      <div class="flex-1 min-w-0">
+        <span class="text-muted-foreground/80">Post: </span>
+        <span class="font-medium text-foreground/80 break-words">{title}</span>
+      </div>
+    </div>
+
+    <div class="flex items-start sm:items-center gap-2">
+      <span class="icon-[lucide--link] text-primary/70 mt-0.5 flex-shrink-0 text-sm sm:text-base"></span>
+      <div class="flex-1 min-w-0">
+        <span class="text-muted-foreground/80">Link: </span>
+        <a
+          href={currentUrl}
+          class="font-medium text-primary/80 hover:text-primary transition-colors break-all inline-block"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {currentUrl}
+        </a>
+      </div>
+    </div>
+
+    <div class="flex items-start sm:items-center gap-2">
+      <span class="icon-[lucide--file-badge] text-primary/70 mt-0.5 flex-shrink-0 text-sm sm:text-base"></span>
+      <div class="flex-1 min-w-0">
+        <span class="text-muted-foreground/80">License: </span>
+        {
+          config.url ? (
+            <a
+              href={config.url}
+              class="inline-flex items-center gap-1.5 font-medium text-primary/80 hover:text-primary transition-colors break-words"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <span>{config.name}</span>
+            </a>
+          ) : (
+            <span class="font-medium text-foreground/80 break-words">{config.name}</span>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .bg-grid-pattern {
+    background-image:
+      linear-gradient(to right, currentColor 1px, transparent 1px), linear-gradient(to bottom, currentColor 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .license-container {
+    animation: fadeInUp 0.5s ease-out;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

@@ -17,14 +17,14 @@ const { title, description, image }: Props = Astro.props
 ---
 
 <!doctype html>
-<html lang={SITE.lang}>
+<html lang={SITE.lang} transition:name="root" transition:animate={SITE.transition ? 'fade' : 'none'}>
   <head>
     <Head title={`${title} | ${SITE.title}`} {description} {image} />
   </head>
   <body class="flex flex-col">
     <Header />
     <div class="grow flex">
-      <main class="relative border-x border-border/50 max-w-3xl mx-auto grow min-w-0">
+      <main class="relative border-x border-border/50 global-layout-width mx-auto grow min-w-0">
         <slot />
       </main>
     </div>

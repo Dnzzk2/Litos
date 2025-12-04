@@ -15,11 +15,11 @@ const recommendText = POSTS_CONFIG.recommendText
 ---
 
 <article class="relative">
-  <div class="fade-up animation-delay-100">
+  <div class="fade-up">
     {
       frontmatter.cover && (
         <div class="w-full">
-          <div class="max-w-5xl mx-auto px-0">
+          <div class="max-w-5xl mx-auto px-6 sm:px-8 pt-4">
             <div class="aspect-[1200/630] w-full overflow-hidden">
               <LqipImage
                 src={frontmatter.cover}
@@ -38,7 +38,7 @@ const recommendText = POSTS_CONFIG.recommendText
     }
 
     <header class="px-6 sm:px-8 py-6">
-      <div class="max-w-3xl mx-auto">
+      <div class="global-layout-width mx-auto">
         {frontmatter.description && <p class="text-sm text-muted-foreground/90 leading-relaxed mb-4">{frontmatter.description}</p>}
 
         <div class="space-y-3 sm:space-y-4">
@@ -56,15 +56,16 @@ const recommendText = POSTS_CONFIG.recommendText
             <time datetime={frontmatter.pubDate.toISOString()}>
               {formatDate(frontmatter.pubDate)}
             </time>
+            {
+              frontmatter.updatedDate && (
+                <div class="flex items-center gap-1.5">
+                  / Update
+                  <time datetime={frontmatter.updatedDate.toISOString()}>{formatDate(frontmatter.updatedDate)}</time>
+                </div>
+              )
+            }
           </div>
-          {
-            frontmatter.updatedDate && (
-              <div class="flex items-center gap-1.5">
-                <span class="icon-[ph--clock-clockwise] w-4 h-4 opacity-85" />
-                <time datetime={frontmatter.updatedDate.toISOString()}>{formatDate(frontmatter.updatedDate)}</time>
-              </div>
-            )
-          }
+
           {
             minutesRead && (
               <div class="flex items-center gap-1.5">
@@ -73,6 +74,13 @@ const recommendText = POSTS_CONFIG.recommendText
               </div>
             )
           }
+
+          <div class="flex items-center gap-1.5">
+            <span class="icon-[ph--eye] w-4 h-4 opacity-85"></span>
+            <span id="busuanzi_container_page_pv">
+              <span id="busuanzi_value_page_pv"></span> views
+            </span>
+          </div>
         </div>
 
         <div class="flex gap-2 sm:gap-2.5 lg:gap-3 flex-wrap pt-4">
@@ -85,7 +93,7 @@ const recommendText = POSTS_CONFIG.recommendText
     </header>
   </div>
 
-  <main class="px-6 sm:px-8 pb-10 max-w-3xl mx-auto fade-up animation-delay-150">
+  <main class="px-6 sm:px-8 pb-10 global-layout-width mx-auto fade-up">
     <Prose>
       <slot />
     </Prose>

@@ -6,6 +6,7 @@ import { getAllPosts } from '~/lib/data'
 import Layout from '~/layouts/Layout.astro'
 import Pagination from '~/components/base/Pagination.astro'
 import List from '~/components/posts/card/List.astro'
+import PageTitle from '~/components/base/PageTitle.astro'
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   const sortedPosts = await getAllPosts()
@@ -26,17 +27,10 @@ const { title, description, introduce } = POSTS_CONFIG
 
 <Layout {title} {description}>
   <div class="relative z-[1] py-8 pb-10 px-6 sm:px-8">
-    <h1 class="tracking-tight text-4xl sm:text-5xl bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent pb-1.5">
-      {title}
-    </h1>
-    <div class="pro text-muted-foreground">
-      <p class="mt-2">{introduce}</p>
-    </div>
-
-    <div class="mt-12">
+    <PageTitle {title} {introduce} />
+    <div class="mt-12 fade-up">
       <List posts={page.data} type={POSTS_CONFIG.postPageConfig.type} coverLayout={POSTS_CONFIG.postPageConfig?.coverLayout} />
     </div>
-
     <Pagination {page} baseUrl="/posts" />
   </div>
 </Layout>

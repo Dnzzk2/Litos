@@ -24,6 +24,7 @@ const posts = defineCollection({
         coverLayout: z.custom<CoverLayout>().optional(),
         pinned: z.boolean().default(false),
         draft: z.boolean().default(false),
+        license: z.string().optional(),
       })
       .transform((data) => ({
         ...data,

@@ -11,6 +11,8 @@ export type CardProps = {
   post: CollectionEntry<'posts'>
   index: number
   coverLayout?: CoverLayout
+  class?: string
+  style?: string
 }
 
 const POST_CARD_COMPONENTS = {
@@ -40,5 +42,5 @@ const PostCardElement = POST_CARD_COMPONENTS[type]
 ---
 
 <div class={cn(spacingClass, 'content-visibility: auto')}>
-  {posts.map((post, index) => <PostCardElement {post} {index} {coverLayout} />)}
+  {posts.map((post, index) => <PostCardElement {post} {index} {coverLayout} class="fade-up" style={`animation-delay: ${index * 100}ms`} />)}
 </div>

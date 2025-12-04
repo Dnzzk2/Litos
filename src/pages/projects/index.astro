@@ -6,6 +6,7 @@ import SectionDivider from '~/components/base/SectionDivider.astro'
 import NumberTicker from '~/components/base/NumberTicker'
 import { Image } from 'astro:assets'
 import { getAllProjects } from '~/lib/data'
+import PageTitle from '~/components/base/PageTitle.astro'
 
 const { title, description, introduce } = PROJECTS_CONFIG
 const projects = await getAllProjects()
@@ -14,14 +15,9 @@ const projects = await getAllProjects()
 <Layout {title} {description}>
   <div class="relative z-[1] py-8 pb-10">
     <div class="px-6 sm:px-8">
-      <h1 class="tracking-tight text-4xl sm:text-5xl bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent pb-1.5">
-        {title}
-      </h1>
-      <div class="pro text-muted-foreground">
-        <p class="mt-2">{introduce}</p>
-      </div>
+      <PageTitle {title} {introduce} />
     </div>
-    <div class="grid grid-cols-1">
+    <div class="grid grid-cols-1 fade-up">
       {
         projects.map((project, index) => {
           return (

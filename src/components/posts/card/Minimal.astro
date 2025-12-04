@@ -4,12 +4,11 @@ import type { CardProps } from './List.astro'
 
 interface Props extends CardProps {}
 
-const { post }: Props = Astro.props
-
+const { post, class: className, style }: Props = Astro.props
 const displayDate = post.data.updatedDate || post.data.pubDate
 ---
 
-<article class="group flex items-center justify-between py-3 border-b border-border/30 last:border-b-0">
+<article class:list={['group flex items-center justify-between py-3 border-b border-border/30 last:border-b-0', className]} {style}>
   <a href={`/posts/${post.id}`} class="flex-1 pr-4">
     <div class="text-base font-semibold text-muted-foreground/90 group-hover:text-primary transition-colors duration-200 line-clamp-1">
       {post.data.title}

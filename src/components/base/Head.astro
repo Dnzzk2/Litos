@@ -1,6 +1,6 @@
 ---
 import { ClientRouter } from 'astro:transitions'
-import { SITE } from '~/config'
+import { ANALYTICS_CONFIG, SITE } from '~/config'
 
 type Props = {
   title: string
@@ -71,4 +71,54 @@ const ogImage = new URL(image || SITE.ogImage, Astro.url)
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={ogImage} />
 
-<ClientRouter />
+
+{
+  ANALYTICS_CONFIG.umami?.enabled && (
+    <script
+      is:inline
+      defer
+      src={ANALYTICS_CONFIG.umami.serverUrl}
+      data-website-id={ANALYTICS_CONFIG.umami.websiteId}
+    ></script>
+  )
+}
+{
+  ANALYTICS_CONFIG.busuanzi?.enabled && (
+    <script is:inline>
+      document.addEventListener('astro:page-load', () => {
+        const oldScript = document.querySelector('script[src*="busuanzi.pure.mini.js"]')
+        if (oldScript) {
+          oldScript.remove()
+        }
+
+        const loadScript = () => {
+          const script = document.createElement('script')
+          script.src = 'https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js'
+          script.defer = true
+          document.head.appendChild(script)
+        }
+
+        if (document.prerendering) {
+          document.addEventListener('prerenderingchange', loadScript, { once: true })
+        } else {
+          loadScript()
+        }
+      })
+    </script>
+  )
+}
+{
+  ANALYTICS_CONFIG.google?.enabled && (
+    <>
+      <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${ANALYTICS_CONFIG.google.id}`}></script>
+      <script is:inline define:vars={{ id: ANALYTICS_CONFIG.google.id }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', id);
+      </script>
+    </>
+  )
+}
+
+<ClientRouter fallback="swap" />

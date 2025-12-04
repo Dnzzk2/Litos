@@ -25,72 +25,76 @@ if (hasPinnedPosts) {
 
 <Layout title="Readme" description={SITE.description}>
   <div class="relative z-[1]">
-    <div class="py-8 pb-10 px-6 sm:px-8">
-      <h1 class="flex flex-col gap-2">
-        <span class="text-4xl sm:text-5xl tracking-tight"> Litos </span>
-        <span class="text-muted-foreground font-light text-xl sm:text-2xl block tracking-wide text-balance">
-          A Simple & Modern Blog Theme for Astro
-        </span>
-      </h1>
-      <div class="pro text-muted-foreground text-pretty">
-        <p>
-          Litos is a simple and modern Astro blog theme, focusing on content display and reading experience. What's more, it's not just a
-          blog, but also a place to showcase your personal skills, projects, and daily life.
-        </p>
-        <p>
-          Tailwind CSS is used to achieve an elegant responsive design, and React components are integrated to provide a smooth interactive
-          experience. It supports light and dark theme switching, is responsive, has a clean style, and offers a variety of configurable
-          article display layouts.
-        </p>
-        <p>
-          This theme is inspired by <a href="https://github.com/needim" target="_blank" rel="nofollow noreferrer"> @needim</a> and redesigned
-          by <a href="https://github.com/Dnzzk2" target="_blank" rel="nofollow noreferrer"> @Dnzzk2</a> based on Astro.
-        </p>
+    <div class="fade-up">
+      <div class="py-8 pb-10 px-6 sm:px-8">
+        <h1 class="flex flex-col gap-2">
+          <span class="text-4xl sm:text-5xl tracking-tight"> Litos </span>
+          <span class="text-muted-foreground font-light text-xl sm:text-2xl block tracking-wide text-balance">
+            A Simple & Modern Blog Theme for Astro
+          </span>
+        </h1>
+        <div class="pro text-muted-foreground text-pretty">
+          <p>
+            Litos is a simple and modern Astro blog theme, focusing on content display and reading experience. What's more, it's not just a
+            blog, but also a place to showcase your personal skills, projects, and daily life.
+          </p>
+          <p>
+            Tailwind CSS is used to achieve an elegant responsive design, and React components are integrated to provide a smooth
+            interactive experience. It supports light and dark theme switching, is responsive, has a clean style, and offers a variety of
+            configurable article display layouts.
+          </p>
+          <p>
+            This theme is inspired by <a href="https://github.com/needim" target="_blank" rel="nofollow noreferrer"> @needim</a> and redesigned
+            by <a href="https://github.com/Dnzzk2" target="_blank" rel="nofollow noreferrer"> @Dnzzk2</a> based on Astro.
+          </p>
+        </div>
+        <div class="mt-6 flex gap-6">
+          {
+            SOCIAL_LINKS.map((item) => {
+              return (
+                <SocialLink href={item.url} icon={item.icon} aria-label={`Link of ${item.name}`} count={item.count} label="followers" />
+              )
+            })
+          }
+        </div>
       </div>
-      <div class="mt-6 flex gap-6">
-        {
-          SOCIAL_LINKS.map((item) => {
-            return <SocialLink href={item.url} icon={item.icon} aria-label={`Link of ${item.name}`} count={item.count} label="followers" />
-          })
-        }
+      {
+        ENABLED && (
+          <>
+            <SectionDivider />
+            <div class="py-8 pb-10 px-6 max-md:px-6">
+              <div class="px-2 max-md:px-0">
+                <h2 class="text-2xl sm:text-3xl">Spotlight</h2>
+                <p class="text-muted-foreground mb-6 mt-1">Most recent contributions.</p>
+              </div>
+              <GithubContributions username={GITHUB_USERNAME} tooltipEnabled={TOOLTIP_ENABLED} client:load transition:animate="none" />
+            </div>
+          </>
+        )
+      }
+      {
+        SKILLS_ENABLED && SKILLS_DATA.length > 0 && (
+          <>
+            <SectionDivider />
+            <div class="py-8 pb-10 px-6 max-md:px-6">
+              <div class="px-2 max-md:px-0">
+                <h2 class="text-2xl sm:text-3xl tracking-tight">Skills</h2>
+                <p class="text-muted-foreground mb-6 mt-1">Here are some skills I have used:</p>
+              </div>
+              <SkillsShowcase skillsData={SKILLS_DATA} />
+            </div>
+          </>
+        )
+      }
+      <SectionDivider />
+      <div class="py-8 pb-10 px-6 sm:px-8">
+        <h2 class="text-2xl sm:text-3xl tracking-tight">Posts</h2>
+        <p class="text-muted-foreground mb-6 mt-1">
+          {hasPinnedPosts ? `Pinned` : 'Recent'}
+          {showPosts.length} posts, worth a look.
+        </p>
+        <List posts={showPosts} {type} coverLayout={POSTS_CONFIG.homePageConfig?.coverLayout} />
       </div>
-    </div>
-    {
-      ENABLED && (
-        <>
-          <SectionDivider />
-          <div class="py-8 pb-10 px-6 max-md:px-6">
-            <div class="px-2 max-md:px-0">
-              <h2 class="text-2xl sm:text-3xl">Spotlight</h2>
-              <p class="text-muted-foreground mb-6 mt-1">Most recent contributions.</p>
-            </div>
-            <GithubContributions username={GITHUB_USERNAME} tooltipEnabled={TOOLTIP_ENABLED} client:load transition:animate="none" />
-          </div>
-        </>
-      )
-    }
-    {
-      SKILLS_ENABLED && SKILLS_DATA.length > 0 && (
-        <>
-          <SectionDivider />
-          <div class="py-8 pb-10 px-6 max-md:px-6">
-            <div class="px-2 max-md:px-0">
-              <h2 class="text-2xl sm:text-3xl tracking-tight">Skills</h2>
-              <p class="text-muted-foreground mb-6 mt-1">Here are some skills I have used:</p>
-            </div>
-            <SkillsShowcase skillsData={SKILLS_DATA} />
-          </div>
-        </>
-      )
-    }
-    <SectionDivider />
-    <div class="py-8 pb-10 px-6 sm:px-8">
-      <h2 class="text-2xl sm:text-3xl tracking-tight">Posts</h2>
-      <p class="text-muted-foreground mb-6 mt-1">
-        {hasPinnedPosts ? `Pinned` : 'Recent'}
-        {showPosts.length} posts, worth a look.
-      </p>
-      <List posts={showPosts} {type} coverLayout={POSTS_CONFIG.homePageConfig?.coverLayout} />
     </div>
   </div>
 </Layout>

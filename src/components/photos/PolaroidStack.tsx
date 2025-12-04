@@ -43,9 +43,9 @@ const PolaroidStack: React.FC<Props> = ({ photos, title, description, className 
 
   return (
     <>
-      <motion.div ref={ref} className={cn('relative perspective-1000 ml-4 flex items-center cursor-pointer', className)}>
+      <motion.div ref={ref} className={cn('relative perspective-1000 ml-4 flex items-center ', className)}>
         {photos.map((photo, index) => (
-          <div key={photo.src} onClick={() => handlePhotoClick(index)}>
+          <div key={typeof photo.src === 'string' ? photo.src : photo.src.src} onClick={() => handlePhotoClick(index)}>
             <PolaroidCard
               photo={photo}
               index={index}

@@ -15,7 +15,9 @@ interface Props {
 const PhotoGalleryModal: React.FC<Props> = ({ photos, title, description, isOpen, onClose, initialIndex = 0 }) => {
   const [currentIndex, setCurrentIndex] = useState(initialIndex)
   const containerRef = useRef<HTMLDivElement>(null)
+  const imageRefs = useRef<(HTMLDivElement | null)[]>([])
   const [containerWidth, setContainerWidth] = useState(400)
+  const [currentHeight, setCurrentHeight] = useState<number>(100)
   const x = useMotionValue(-initialIndex * containerWidth)
   const gap = 16 // gap-4 = 1rem = 16px
   const [canAnimate, setCanAnimate] = useState(false)
@@ -45,6 +47,19 @@ const PhotoGalleryModal: React.FC<Props> = ({ photos, title, description, isOpen
       setTimeout(() => setCanAnimate(true), 30)
     }
   }, [isOpen, initialIndex, x, containerWidth, gap])
+
+  // 更新高度
+  useEffect(() => {
+    const updateHeight = () => {
+      const el = imageRefs.current[currentIndex]
+      if (el && el.offsetHeight > 0) {
+        setCurrentHeight(el.offsetHeight)
+      }
+    }
+    // 稍微延迟以确保渲染完成
+    const timer = setTimeout(updateHeight, 10)
+    return () => clearTimeout(timer)
+  }, [currentIndex, containerWidth, isOpen])
 
   // 拖拽结束时吸附到最近图片，判定边界放宽到 7%
   const handleDragEnd = useCallback(
@@ -86,9 +101,10 @@ const PhotoGalleryModal: React.FC<Props> = ({ photos, title, description, isOpen
   if (photos.length === 0) return null
 
   const modalContent = (
-    <AnimatePresence>
+    <AnimatePresence onExitComplete={() => setCurrentHeight(100)}>
       {isOpen && (
         <motion.div
+          key="modal-backdrop"
           className="fixed inset-0 z-[99999] flex items-center justify-center p-4"
           onClick={onClose}
           initial={{ opacity: 0 }}
@@ -107,6 +123,7 @@ const PhotoGalleryModal: React.FC<Props> = ({ photos, title, description, isOpen
 
           {/* 弹窗卡片 */}
           <motion.div
+            key="modal-content"
             className="relative bg-background shadow-2xl max-w-lg w-full mx-4 p-6"
             onClick={(e) => e.stopPropagation()}
             initial={{ opacity: 0, y: 60, scale: 0.9 }}
@@ -129,9 +146,15 @@ const PhotoGalleryModal: React.FC<Props> = ({ photos, title, description, isOpen
 
             {/* 图片展示区域 */}
             <div className="relative bg-background" ref={containerRef}>
-              <div className="relative overflow-hidden" style={{ width: containerWidth }}>
+              <motion.div
+                className="relative overflow-hidden"
+                style={{ width: containerWidth }}
+                initial={{ height: 100 }}
+                animate={{ height: currentHeight }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+              >
                 <motion.div
-                  className="flex gap-4"
+                  className="flex gap-4 items-start"
                   style={{ x, width: photos.length * (containerWidth + gap) - gap }}
                   drag="x"
                   dragConstraints={{ left: -(photos.length - 1) * (containerWidth + gap), right: 0 }}
@@ -139,18 +162,33 @@ const PhotoGalleryModal: React.FC<Props> = ({ photos, title, description, isOpen
                   onDragEnd={handleDragEnd}
                   transition={{ type: 'tween', duration: 0.5, ease: 'easeOut' }}
                 >
-                  {photos.map((photo) => (
-                    <div key={photo.src} className="flex items-center justify-center shrink-0" style={{ width: containerWidth }}>
-                      <img
-                        draggable={false}
-                        src={photo.src}
-                        alt={photo.alt}
-                        className="max-w-full max-h-full object-contain select-none pointer-events-none"
-                      />
-                    </div>
-                  ))}
+                  {photos.map((photo, index) => {
+                    const imgSrc = typeof photo.src === 'string' ? photo.src : photo.src.src
+                    return (
+                      <div
+                        key={imgSrc}
+                        ref={(el) => {
+                          imageRefs.current[index] = el
+                        }}
+                        className="flex items-center justify-center shrink-0"
+                        style={{ width: containerWidth }}
+                      >
+                        <img
+                          draggable={false}
+                          src={imgSrc}
+                          alt={photo.alt}
+                          className="max-w-full max-h-[70vh] object-contain select-none pointer-events-none"
+                          onLoad={() => {
+                            if (index === currentIndex && imageRefs.current[index]) {
+                              setCurrentHeight(imageRefs.current[index]!.offsetHeight)
+                            }
+                          }}
+                        />
+                      </div>
+                    )
+                  })}
                 </motion.div>
-              </div>
+              </motion.div>
 
               {/* 左右导航按钮 */}
               {photos.length > 1 && (
@@ -181,6 +219,11 @@ const PhotoGalleryModal: React.FC<Props> = ({ photos, title, description, isOpen
                   </button>
                 </>
               )}
+            </div>
+
+            {/* 计数器 */}
+            <div className="mt-4 text-center text-sm text-muted-foreground font-medium">
+              {currentIndex + 1} / {photos.length}
             </div>
           </motion.div>
         </motion.div>

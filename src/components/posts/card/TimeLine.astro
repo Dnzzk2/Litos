@@ -6,11 +6,11 @@ import { POSTS_CONFIG } from '~/config'
 
 interface Props extends CardProps {}
 
-const { post }: Props = Astro.props
+const { post, class: className, style }: Props = Astro.props
 const recommendText = POSTS_CONFIG.recommendText
 ---
 
-<article class="group relative pl-10 pr-4 sm:pr-32 md:pr-44">
+<article class:list={['group relative pl-10 pr-4 sm:pr-32 md:pr-44', className]} {style}>
   <div class="absolute left-0 top-0 h-full flex flex-col items-center">
     <div class="h-2 w-2 rounded-full bg-primary/20 group-hover:bg-primary transition-colors z-10 mt-[0.25rem] sm:mt-[0.5rem]"></div>
     <div class="flex-1 w-0.5 bg-gradient-to-b from-transparent via-muted-foreground/20 to-transparent"></div>

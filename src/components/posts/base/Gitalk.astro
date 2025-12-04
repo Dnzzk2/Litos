@@ -50,7 +50,7 @@ const { id, title } = Astro.props
   function isElementInViewport(element: Element) {
     const rect = element.getBoundingClientRect()
     const windowHeight = window.innerHeight || document.documentElement.clientHeight
-    return rect.top <= windowHeight + 300 && rect.bottom >= -300
+    return rect.top <= windowHeight + 3000 && rect.bottom >= -3000
   }
 
   function setupObserver() {
@@ -77,7 +77,7 @@ const { id, title } = Astro.props
         })
       },
       {
-        rootMargin: '300px',
+        rootMargin: '3000px',
         threshold: 0,
       }
     )
@@ -154,5 +154,8 @@ const { id, title } = Astro.props
   .dark .gt-comment-content:hover {
     -webkit-box-shadow: 0 0.625em 3.75em 0 #0f1d3c !important;
     box-shadow: 0 0.625em 3.75em #0f1d3c !important;
+  }
+  .dark .markdown-body blockquote {
+    border-color: #3b4b5b;
   }
 </style>

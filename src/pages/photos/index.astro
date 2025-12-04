@@ -1,19 +1,16 @@
 ---
-import { PHOTOS_CONFIG, PhotosList } from '~/config'
+import { PHOTOS_CONFIG } from '~/config'
 import Layout from '~/layouts/Layout.astro'
 import PhotoTimeline from '~/components/photos/PhotoTimeline.astro'
+import PageTitle from '~/components/base/PageTitle.astro'
+import { PhotosList } from '~/lib/photos'
 
 const { title, description, introduce } = PHOTOS_CONFIG
 ---
 
 <Layout {title} {description}>
   <div class="relative z-[1] py-8 pb-10 px-6 sm:px-8">
-    <h1 class="tracking-tight text-4xl sm:text-5xl bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent pb-1.5">
-      {title}
-    </h1>
-    <div class="pro text-muted-foreground">
-      <p class="mt-2">{introduce}</p>
-    </div>
+    <PageTitle {title} {introduce} />
     <div class="mt-12">
       {
         PhotosList.length > 0 ? (

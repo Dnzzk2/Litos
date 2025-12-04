@@ -13,14 +13,14 @@ const { frontmatter, minutesRead } = Astro.props
 const recommendText = POSTS_CONFIG.recommendText
 ---
 
-<article class="relative fade-up animation-delay-100">
+<article class="relative fade-up">
   <div class="px-6 sm:px-8 py-4 sm:py-6 lg:py-8">
-    <div class="max-w-3xl mx-auto">
+    <div class="global-layout-width mx-auto">
       <header>
         <div class="space-y-4 md:space-y-5">
           {frontmatter.description && <p class="text-sm text-muted-foreground/90 leading-relaxed">{frontmatter.description}</p>}
 
-          <div class="text-2xl lg:text-3xl font-semibold leading-tight" data-pagefind-body>
+          <div class="text-xl lg:text-2xl font-semibold leading-tight" data-pagefind-body>
             {frontmatter.title}
           </div>
 
@@ -30,15 +30,16 @@ const recommendText = POSTS_CONFIG.recommendText
               <time datetime={frontmatter.pubDate.toISOString()}>
                 {formatDate(frontmatter.pubDate)}
               </time>
+              {
+                frontmatter.updatedDate && (
+                  <div class="flex items-center gap-1.5">
+                    / Update
+                    <time datetime={frontmatter.updatedDate.toISOString()}>{formatDate(frontmatter.updatedDate)}</time>
+                  </div>
+                )
+              }
             </div>
-            {
-              frontmatter.updatedDate && (
-                <div class="flex items-center gap-1.5">
-                  <span class="icon-[ph--clock-clockwise] w-4 h-4 opacity-85" />
-                  <time datetime={frontmatter.updatedDate.toISOString()}>{formatDate(frontmatter.updatedDate)}</time>
-                </div>
-              )
-            }
+
             {
               minutesRead && (
                 <div class="flex items-center gap-1.5">
@@ -47,6 +48,12 @@ const recommendText = POSTS_CONFIG.recommendText
                 </div>
               )
             }
+            <div class="flex items-center gap-1.5">
+              <span class="icon-[ph--eye] w-4 h-4 opacity-85"></span>
+              <span id="busuanzi_container_page_pv">
+                <span id="busuanzi_value_page_pv"></span> views
+              </span>
+            </div>
           </div>
 
           <div class="flex gap-2 sm:gap-2.5 lg:gap-3 flex-wrap">

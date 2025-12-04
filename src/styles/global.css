@@ -99,6 +99,22 @@
     /* 滚动条 */
     --scrollbar: 220 20% 80%;
     --scrollbar-bg: 220 25% 95%;
+
+    /* 布局宽度变量 */
+    --layout-width: 48rem;
+    --layout-half-width: calc(var(--layout-width) / 2);
+    --layout-change-width: 136rem;
+  }
+
+  @media (min-width: 136rem) {
+    :root {
+      --layout-width: 56rem;
+    }
+  }
+
+  /* 全局布局宽度工具类 */
+  .global-layout-width {
+    max-width: var(--layout-width);
   }
 
   /* 暗色模式变量 */

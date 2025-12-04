@@ -5,10 +5,10 @@ import type { CardProps } from './List.astro'
 
 interface Props extends CardProps {}
 
-const { post }: Props = Astro.props
+const { post, class: className, style }: Props = Astro.props
 ---
 
-<div class="group relative block py-6 border-b border-border/60 last:border-none">
+<div class:list={['group relative block py-6 border-b border-border/60 last:border-none', className]} {style}>
   <article class="relative z-1 flex flex-col gap-2 transform transition-transform duration-300 group-hover:translate-x-4">
     <div class="flex sm:items-center gap-2 sm:gap-3 text-sm text-muted-foreground">
       <span class="inline-flex items-center gap-1.5">
