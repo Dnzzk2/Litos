@@ -5,6 +5,7 @@ import Compact from './Compact.astro'
 import ImageShow from './ImageShow.astro'
 import TimeLine from './TimeLine.astro'
 import Minimal from './Minimal.astro'
+import Cover from './Cover.astro'
 import { cn } from '~/lib/utils'
 
 export type CardProps = {
@@ -20,6 +21,7 @@ const POST_CARD_COMPONENTS = {
   'image': ImageShow,
   'time-line': TimeLine,
   'minimal': Minimal,
+  'cover': Cover,
 } as const
 
 const POST_CARD_SPACING_CLASSES = {
@@ -27,6 +29,7 @@ const POST_CARD_SPACING_CLASSES = {
   'image': 'space-y-12',
   'time-line': '',
   'minimal': '',
+  'cover': 'space-y-6',
 } as const
 
 type Props = {

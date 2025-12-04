@@ -1,0 +1,57 @@
+---
+import { formatDate } from '~/lib/utils'
+import { POSTS_CONFIG } from '~/config'
+import Badge from '~/components/posts/base/Badge.astro'
+import type { CardProps } from './List.astro'
+
+interface Props extends CardProps {}
+
+const { post, class: className, style }: Props = Astro.props
+const recommendText = POSTS_CONFIG.recommendText
+---
+
+<article class:list={['group relative flex flex-col justify-center bg-background', className]} {style}>
+  <div class="flex w-full flex-col gap-3 py-3">
+    <div class="flex flex-wrap items-center gap-3 text-sm text-muted-foreground/80">
+      <time class="flex items-center gap-1.5">
+        <span class="icon-[ph--calendar-blank] size-4"></span>
+        {formatDate(post.data.pubDate, 'chinese')}
+      </time>
+      {
+        post.data.updatedDate && (
+          <>
+            <span class="text-border">|</span>
+            <time class="flex items-center gap-1.5">
+              <span class="icon-[ph--clock-clockwise] size-4" />
+              {formatDate(post.data.updatedDate, 'chinese')}
+            </time>
+          </>
+        )
+      }
+    </div>
+
+    <a href={`/posts/${post.id}`} class="group/title">
+      <div class="text-base font-semibold transition-colors group-hover/title:text-primary line-clamp-2 leading-5 mb-1">
+        {post.data.title}
+      </div>
+      {post.data.description && <p class="text-sm text-muted-foreground/80 line-clamp-3 leading-5 ">{post.data.description}</p>}
+    </a>
+
+    <div class="flex flex-wrap items-center gap-2">
+      {post.data.recommend && <Badge type="recommend" content={recommendText} />}
+      {post.data.tags?.map((tag) => <Badge type="tag" content={tag} />)}
+
+      <a
+        href={`/posts/${post.id}`}
+        class="ml-auto hidden items-center gap-1 text-sm font-medium text-muted-foreground transition-colors hover:text-primary sm:inline-flex"
+      >
+        {POSTS_CONFIG.readMoreText}
+        <span class="icon-[ph--arrow-right] size-4"></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="absolute right-4 top-1/2 -translate-y-1/2 text-muted-foreground/20 sm:hidden">
+    <span class="icon-[ph--caret-right] size-6"></span>
+  </div>
+</article>
