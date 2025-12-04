@@ -92,6 +92,7 @@ const ogImage = new URL(image || SITE.ogImage, Astro.url)
         }
 
         const loadScript = () => {
+          if (document.querySelector('script[src*="busuanzi.pure.mini.js"]')) return
           const script = document.createElement('script')
           script.src = 'https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js'
           script.defer = true
@@ -100,6 +101,14 @@ const ogImage = new URL(image || SITE.ogImage, Astro.url)
 
         if (document.prerendering) {
           document.addEventListener('prerenderingchange', loadScript, { once: true })
+        } else if (document.visibilityState === 'hidden') {
+          const onVisibilityChange = () => {
+            if (document.visibilityState === 'visible') {
+              loadScript()
+              document.removeEventListener('visibilitychange', onVisibilityChange)
+            }
+          }
+          document.addEventListener('visibilitychange', onVisibilityChange)
         } else {
           loadScript()
         }
