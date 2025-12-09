@@ -92,7 +92,7 @@
 
     /* 标签系统 */
     --tag-bg: 220 25% 96%;
-    --tag-bg-hover: 220 25% 92%;
+    --tag-bg-hover: 220 25% 85%;
     --tag-border: 220 25% 90%;
     --tag-text: 225 15% 35%;
 
@@ -130,7 +130,7 @@
     --border: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
     --tag-bg: 240 20% 13%;
-    --tag-bg-hover: 240 20% 16%;
+    --tag-bg-hover: 240 20% 25%;
     --tag-border: 240 20% 20%;
     --tag-text: 240 15% 85%;
     --scrollbar: 240 10% 30%;

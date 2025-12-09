@@ -105,6 +105,7 @@ export interface TagsConfig {
 export interface Skill {
   icon: string
   name: string
+  url?: string
 }
 
 export interface SkillData {

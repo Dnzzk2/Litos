@@ -102,18 +102,22 @@ export const SKILLSSHOWCASE_CONFIG: SkillsShowcaseConfig = {
         {
           name: 'JavaScript',
           icon: 'icon-[mdi--language-javascript]',
+          url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript',
         },
         {
           name: 'CSS',
           icon: 'icon-[mdi--language-css3]',
+          url: 'https://developer.mozilla.org/en-US/docs/Web/CSS',
         },
         {
           name: 'HTML',
           icon: 'icon-[mdi--language-html5]',
+          url: 'https://developer.mozilla.org/en-US/docs/Web/HTML',
         },
         {
           name: 'TypeScript',
           icon: 'icon-[mdi--language-typescript]',
+          url: 'https://www.typescriptlang.org/',
         },
       ],
     },
@@ -123,26 +127,32 @@ export const SKILLSSHOWCASE_CONFIG: SkillsShowcaseConfig = {
         {
           name: 'Astro',
           icon: 'icon-[lineicons--astro]',
+          url: 'https://astro.build/',
         },
         {
           name: 'Node.js',
           icon: 'icon-[mdi--nodejs]',
+          url: 'https://nodejs.org/',
         },
         {
           name: 'React',
           icon: 'icon-[mdi--react]',
+          url: 'https://react.dev/',
         },
         {
           name: 'Next.js',
           icon: 'icon-[devicon--nextjs]',
+          url: 'https://nextjs.org/',
         },
         {
           name: 'Tailwind CSS',
           icon: 'icon-[mdi--tailwind]',
+          url: 'https://tailwindcss.com/',
         },
         {
           name: 'Iconify',
           icon: 'icon-[line-md--iconify2-static]',
+          url: 'https://iconify.design/',
         },
       ],
     },
@@ -152,18 +162,22 @@ export const SKILLSSHOWCASE_CONFIG: SkillsShowcaseConfig = {
         {
           name: 'Ubuntu',
           icon: 'icon-[mdi--ubuntu]',
+          url: 'https://ubuntu.com/',
         },
         {
           name: 'Git',
           icon: 'icon-[mdi--git]',
+          url: 'https://git-scm.com/',
         },
         {
           name: 'MongoDB',
           icon: 'icon-[lineicons--mongodb]',
+          url: 'https://www.mongodb.com/',
         },
         {
           name: 'Vercel',
           icon: 'icon-[lineicons--vercel]',
+          url: 'https://vercel.com/',
         },
       ],
     },
