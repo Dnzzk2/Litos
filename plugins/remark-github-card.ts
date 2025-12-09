@@ -1,12 +1,12 @@
 import { visit } from 'unist-util-visit'
-import type { Root } from 'mdast'
+import type { RemarkPlugin } from '@astrojs/markdown-remark'
 
 /**
  * Remark plugin to transform GitHub directive into GitHub card component
  * Usage: ::github{repo="owner/repo"}
  */
-export const remarkGithubCard = () => {
-  return (tree) => {
+export const remarkGithubCard: RemarkPlugin = () => {
+  return (tree: any) => {
     visit(tree, (node: any) => {
       if (node.type === 'textDirective' || node.type === 'leafDirective') {
         if (node.name === 'github') {

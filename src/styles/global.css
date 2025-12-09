@@ -2,7 +2,6 @@
 @import 'tailwindcss';
 @plugin "@tailwindcss/typography";
 @plugin "@iconify/tailwind4";
-@import './github-card.css';
 
 /* ===== 暗色模式配置 ===== */
 @custom-variant dark (&:where(.dark, .dark *));
