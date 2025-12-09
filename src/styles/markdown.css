@@ -147,7 +147,7 @@
   }
 
   /* 链接样式 */
-  & a {
+  & a:not(.card-github) {
     color: var(--color-link);
     text-decoration: none;
     border-block-end: 1px solid var(--color-border-light);
