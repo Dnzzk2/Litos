@@ -20,6 +20,16 @@ const projects = await getAllProjects()
     <div class="grid grid-cols-1 fade-up">
       {
         projects.map((project, index) => {
+          let githubRepo = undefined
+          if (project.data.githubUrl) {
+            try {
+              const urlObj = new URL(project.data.githubUrl)
+              if (urlObj.hostname.includes('github.com')) {
+                githubRepo = urlObj.pathname.replace(/^\/|\/$/g, '')
+              }
+            } catch (e) {}
+          }
+
           return (
             <div>
               <div class="group relative hover:bg-muted/30 dark:hover:bg-muted/30 transition-colors duration-300 px-6 sm:px-8 py-4 ">
@@ -51,7 +61,7 @@ const projects = await getAllProjects()
                         <>
                           <span class="text-xs uppercase tracking-wide font-medium text-muted-foreground">Stars</span>
                           <span class="font-semibold text-lg tracking-wider">
-                            <NumberTicker play value={project.data.star} client:load />
+                            <NumberTicker play value={project.data.star} client:load githubRepo={githubRepo} githubType="stars" />
                           </span>
                         </>
                       )}
@@ -61,7 +71,7 @@ const projects = await getAllProjects()
                         <>
                           <span class="text-xs uppercase tracking-wide font-medium text-muted-foreground">Forks</span>
                           <span class="font-semibold text-lg tracking-wider">
-                            <NumberTicker play value={project.data.fork} client:load />
+                            <NumberTicker play value={project.data.fork} client:load githubRepo={githubRepo} githubType="forks" />
                           </span>
                         </>
                       )}

@@ -1,6 +1,7 @@
 import { cn } from '~/lib/utils'
 import { motion, useMotionValue, useSpring } from 'framer-motion'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { getGithubFollowers, getGithubRepoStats } from '~/lib/github'
 
 interface NumberTickerProps {
   value: number
@@ -9,15 +10,54 @@ interface NumberTickerProps {
   label?: string
   delay?: number // delay in seconds
   play?: boolean
+  githubUser?: string
+  githubRepo?: string
+  githubType?: 'stars' | 'forks'
 }
 
-export default function NumberTicker({ value, direction = 'up', delay = 0, className, label, play = true }: NumberTickerProps) {
+export default function NumberTicker({
+  value: initialValue,
+  direction = 'up',
+  delay = 0,
+  className,
+  label,
+  play = true,
+  githubUser,
+  githubRepo,
+  githubType,
+}: NumberTickerProps) {
+  const [value, setValue] = useState(initialValue)
   const ref = useRef<HTMLSpanElement>(null)
   const motionValue = useMotionValue(direction === 'down' ? value : 0)
   const springValue = useSpring(motionValue, {
     damping: 100,
     stiffness: 1000,
   })
+
+  useEffect(() => {
+    let isMounted = true
+
+    const fetchData = async () => {
+      if (githubUser) {
+        const followers = await getGithubFollowers(githubUser)
+        if (isMounted && followers !== undefined) setValue(followers)
+      } else if (githubRepo && githubType) {
+        const parts = githubRepo.split('/')
+        if (parts.length === 2) {
+          const stats = await getGithubRepoStats(parts[0], parts[1])
+          if (isMounted && stats) {
+            setValue(githubType === 'stars' ? stats.stars : stats.forks)
+          }
+        }
+      }
+    }
+
+    fetchData()
+
+    return () => {
+      isMounted = false
+    }
+  }, [githubUser, githubRepo, githubType])
 
   useEffect(() => {
     if (!play) return
