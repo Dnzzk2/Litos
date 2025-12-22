@@ -88,6 +88,7 @@ export interface PostConfig {
   nextPostText: string
   prevPostText: string
   recommendText: string
+  wordCountView: boolean
 }
 
 /**
@@ -254,7 +255,7 @@ export interface GitalkConfig {
 }
 
 export interface AnalyticsConfig {
-  busuanzi?: {
+  vercount?: {
     enabled: boolean
   }
   umami?: {

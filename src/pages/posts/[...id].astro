@@ -52,7 +52,7 @@ const PostLayout = layoutMap[layoutKey]
 >
   <div class="relative flex flex-col justify-between h-fit z-[1]">
     <TocMobile {post} {posts} headings={filterHeadings} />
-    <PostLayout {frontmatter} minutesRead={remarkPluginFrontmatter.minutesRead}>
+    <PostLayout {frontmatter} minutesRead={remarkPluginFrontmatter.minutesRead} wordCount={remarkPluginFrontmatter.wordCount}>
       <Content />
       {
         frontmatter.license && (

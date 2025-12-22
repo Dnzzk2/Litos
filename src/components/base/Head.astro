@@ -83,37 +83,8 @@ const ogImage = new URL(image || SITE.ogImage, Astro.url)
   )
 }
 {
-  ANALYTICS_CONFIG.busuanzi?.enabled && (
-    <script is:inline>
-      document.addEventListener('astro:page-load', () => {
-        const oldScript = document.querySelector('script[src*="busuanzi.pure.mini.js"]')
-        if (oldScript) {
-          oldScript.remove()
-        }
-
-        const loadScript = () => {
-          if (document.querySelector('script[src*="busuanzi.pure.mini.js"]')) return
-          const script = document.createElement('script')
-          script.src = 'https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js'
-          script.defer = true
-          document.head.appendChild(script)
-        }
-
-        if (document.prerendering) {
-          document.addEventListener('prerenderingchange', loadScript, { once: true })
-        } else if (document.visibilityState === 'hidden') {
-          const onVisibilityChange = () => {
-            if (document.visibilityState === 'visible') {
-              loadScript()
-              document.removeEventListener('visibilitychange', onVisibilityChange)
-            }
-          }
-          document.addEventListener('visibilitychange', onVisibilityChange)
-        } else {
-          loadScript()
-        }
-      })
-    </script>
+  ANALYTICS_CONFIG.vercount?.enabled && (
+    <script is:inline defer src="https://events.vercount.one/js" data-astro-rerun></script>
   )
 }
 {

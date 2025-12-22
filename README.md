@@ -40,7 +40,7 @@ Unlike traditional themes, Litos emphasizes visual aesthetics without compromisi
 - **Integrated Features**:
   - **Comments**: Gitalk integration for GitHub-based comments.
   - **SEO**: Built-in support for sitemaps, robots.txt, and meta tags.
-  - **Analytics**: Configurable support for Busuanzi and Umami analytics.
+  - **Analytics**: Configurable support for Vercount and Umami analytics.
   - **Dark Mode**: Native support for light and dark themes.
 
 ## Getting Started

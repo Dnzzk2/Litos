@@ -228,6 +228,7 @@ export const POSTS_CONFIG: PostConfig = {
   nextPostText: 'Next Post',
   prevPostText: 'Previous Post',
   recommendText: 'REC',
+  wordCountView: true,
 }
 
 export const COMMENT_CONFIG: CommentConfig = {
@@ -267,7 +268,7 @@ export const PHOTOS_CONFIG: PhotosConfig = {
 }
 
 export const ANALYTICS_CONFIG: AnalyticsConfig = {
-  busuanzi: {
+  vercount: {
     enabled: true,
   },
   umami: {

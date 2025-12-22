@@ -11,6 +11,7 @@ function remarkReadingTime() {
     const stats = readingTime(textOnPage)
 
     frontmatter.minutesRead = Math.max(1, Math.round(stats.minutes))
+    frontmatter.wordCount = stats.words
   }
 }
 
