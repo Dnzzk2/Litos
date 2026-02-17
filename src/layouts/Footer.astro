@@ -3,6 +3,10 @@ import { FOOTER_LINKS, SITE } from '~/config'
 import SectionDivider from '~/components/base/SectionDivider.astro'
 import ThemeToggle from '~/components/theme/ThemeToggle'
 import FooterLink from '~/components/base/FooterLink.astro'
+
+const START_YEAR = 2025
+const currentYear = new Date().getFullYear()
+const yearDisplay = currentYear > START_YEAR ? `${START_YEAR} - ${currentYear}` : `${START_YEAR}`
 ---
 
 <SectionDivider className="border-t-border dark:border-t-border/50" />
@@ -16,7 +20,7 @@ import FooterLink from '~/components/base/FooterLink.astro'
       </div>
       <div class="text-sm text-muted-foreground px-6 sm:px-8 py-4">
         <div class="items-center flex flex-wrap gap-4 font-medium">
-          <div>© 2025 All rights reserved {SITE.author}.</div>
+          <div>© {yearDisplay} crafted by {SITE.author}.</div>
           <div class="grow"></div>
           <div class="flex gap-2 items-center" transition:persist="footer-theme-toggle">
             <a

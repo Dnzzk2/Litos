@@ -67,9 +67,9 @@ export const FOOTER_LINKS: Link[] = [
 export const SOCIAL_LINKS: SocialLink[] = [
   {
     name: 'github',
-    url: 'https://github.com/yourname',
+    url: 'https://github.com/Dnzzk2',
     icon: 'icon-[ri--github-fill]',
-    count: 19,
+    count: 20,
   },
   {
     name: 'twitter',
@@ -101,23 +101,33 @@ export const SKILLSSHOWCASE_CONFIG: SkillsShowcaseConfig = {
       skills: [
         {
           name: 'JavaScript',
-          icon: 'icon-[mdi--language-javascript]',
+          icon: 'icon-[skill-icons--javascript]',
           url: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript',
         },
         {
           name: 'CSS',
-          icon: 'icon-[mdi--language-css3]',
+          icon: 'icon-[skill-icons--css]',
           url: 'https://developer.mozilla.org/en-US/docs/Web/CSS',
         },
         {
           name: 'HTML',
-          icon: 'icon-[mdi--language-html5]',
+          icon: 'icon-[skill-icons--html]',
           url: 'https://developer.mozilla.org/en-US/docs/Web/HTML',
         },
         {
           name: 'TypeScript',
-          icon: 'icon-[mdi--language-typescript]',
+          icon: 'icon-[skill-icons--typescript]',
           url: 'https://www.typescriptlang.org/',
+        },
+        {
+          name: 'Vue',
+          icon: 'icon-[skill-icons--vuejs-dark]',
+          url: 'https://vuejs.org/',
+        },
+        {
+          name: 'Sass',
+          icon: 'icon-[skill-icons--sass]',
+          url: 'https://sass-lang.com/',
         },
       ],
     },
@@ -126,33 +136,33 @@ export const SKILLSSHOWCASE_CONFIG: SkillsShowcaseConfig = {
       skills: [
         {
           name: 'Astro',
-          icon: 'icon-[lineicons--astro]',
+          icon: 'icon-[skill-icons--astro]',
           url: 'https://astro.build/',
         },
         {
           name: 'Node.js',
-          icon: 'icon-[mdi--nodejs]',
+          icon: 'icon-[skill-icons--nodejs-dark]',
           url: 'https://nodejs.org/',
         },
         {
           name: 'React',
-          icon: 'icon-[mdi--react]',
+          icon: 'icon-[skill-icons--react-dark]',
           url: 'https://react.dev/',
         },
         {
           name: 'Next.js',
-          icon: 'icon-[devicon--nextjs]',
+          icon: 'icon-[skill-icons--nextjs-dark]',
           url: 'https://nextjs.org/',
         },
         {
           name: 'Tailwind CSS',
-          icon: 'icon-[mdi--tailwind]',
+          icon: 'icon-[skill-icons--tailwindcss-dark]',
           url: 'https://tailwindcss.com/',
         },
         {
-          name: 'Iconify',
-          icon: 'icon-[line-md--iconify2-static]',
-          url: 'https://iconify.design/',
+          name: 'Vite',
+          icon: 'icon-[skill-icons--vite-dark]',
+          url: 'https://vitejs.dev/',
         },
       ],
     },
@@ -161,23 +171,33 @@ export const SKILLSSHOWCASE_CONFIG: SkillsShowcaseConfig = {
       skills: [
         {
           name: 'Ubuntu',
-          icon: 'icon-[mdi--ubuntu]',
+          icon: 'icon-[skill-icons--ubuntu-dark]',
           url: 'https://ubuntu.com/',
         },
         {
           name: 'Git',
-          icon: 'icon-[mdi--git]',
+          icon: 'icon-[skill-icons--git]',
           url: 'https://git-scm.com/',
         },
         {
           name: 'MongoDB',
-          icon: 'icon-[lineicons--mongodb]',
+          icon: 'icon-[skill-icons--mongodb]',
           url: 'https://www.mongodb.com/',
         },
         {
           name: 'Vercel',
-          icon: 'icon-[lineicons--vercel]',
+          icon: 'icon-[skill-icons--vercel-dark]',
           url: 'https://vercel.com/',
+        },
+        {
+          name: 'VS Code',
+          icon: 'icon-[skill-icons--vscode-dark]',
+          url: 'https://code.visualstudio.com/',
+        },
+        {
+          name: 'Obsidian',
+          icon: 'icon-[skill-icons--obsidian-dark]',
+          url: 'https://obsidian.md/',
         },
       ],
     },
@@ -205,7 +225,7 @@ export const POSTS_CONFIG: PostConfig = {
   introduce: 'Here, I will share the usage instructions for this theme to help you quickly use it.',
   author: 'Dnzzk2',
   homePageConfig: {
-    size: 5,
+    size: 2,
     type: 'compact',
   },
   postPageConfig: {

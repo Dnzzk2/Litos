@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { createPortal } from 'react-dom'
-import { motion, AnimatePresence, useMotionValue, animate } from 'framer-motion'
+import { motion, AnimatePresence, useMotionValue, animate } from 'motion/react'
 import type { Photo } from '~/types'
 
 interface Props {
@@ -61,6 +61,21 @@ const PhotoGalleryModal: React.FC<Props> = ({ photos, title, description, isOpen
     return () => clearTimeout(timer)
   }, [currentIndex, containerWidth, isOpen])
 
+  useEffect(() => {
+    const top = window.scrollY // 记录当前滚动位置
+    if (isOpen) {
+      // 计算滚动条宽度
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth
+      // 防止背景滚动，同时补偿滚动条宽度以保持布局
+      document.body.style.overflow = 'hidden'
+      document.body.style.paddingRight = `${scrollbarWidth}px`
+    } else {
+      document.body.style.overflow = ''
+      document.body.style.paddingRight = ''
+      window.scrollTo(0, top)
+    }
+  }, [isOpen])
+
   // 拖拽结束时吸附到最近图片，判定边界放宽到 7%
   const handleDragEnd = useCallback(
     (_: any, info: { offset: { x: number } }) => {
@@ -114,7 +129,7 @@ const PhotoGalleryModal: React.FC<Props> = ({ photos, title, description, isOpen
         >
           {/* 遮罩层 */}
           <motion.div
-            className="absolute inset-0 bg-black/50"
+            className="absolute inset-0 bg-black/50 h-[100dvh]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

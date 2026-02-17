@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { motion, useAnimation } from 'framer-motion'
+import { motion, useAnimation } from 'motion/react'
 import { useStore } from '@nanostores/react'
 import { themeStore } from '~/stores/theme'
 
@@ -54,6 +54,11 @@ const ThemeToggle = () => {
 
     const isDark = newTheme === 'dark' || (newTheme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
     root.classList.toggle('dark', isDark)
+
+    const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+    if (metaThemeColor) {
+      metaThemeColor.setAttribute('content', isDark ? '#09090b' : '#FFFFFF')
+    }
 
     // 移除过渡类
     setTimeout(() => {

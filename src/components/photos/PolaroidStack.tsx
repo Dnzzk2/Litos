@@ -1,5 +1,5 @@
 import React from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView } from 'motion/react'
 import type { Photo } from '~/types'
 import { cn } from '~/lib/utils'
 import PolaroidCard from './PolaroidCard'
@@ -43,7 +43,7 @@ const PolaroidStack: React.FC<Props> = ({ photos, title, description, className 
 
   return (
     <>
-      <motion.div ref={ref} className={cn('relative perspective-1000 ml-4 flex items-center ', className)}>
+      <motion.div ref={ref} className={cn('relative perspective-1000 ml-4 flex flex-wrap items-center ', className)}>
         {photos.map((photo, index) => (
           <div key={typeof photo.src === 'string' ? photo.src : photo.src.src} onClick={() => handlePhotoClick(index)}>
             <PolaroidCard

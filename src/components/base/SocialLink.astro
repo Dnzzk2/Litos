@@ -17,16 +17,19 @@ const githubUser = isGithub ? href.split('/').filter(Boolean).pop() : undefined
 
 <a
   class={cn(
-    'group -m-1 p-1 ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded flex items-center gap-2 cursor-pointer',
+    'group -m-1 p-1 ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-lg flex items-center gap-2 cursor-pointer',
+    'transition-all duration-300 ease-out',
     className
   )}
   {...props}
   target="_blank"
 >
-  <span class={cn('h-6 w-6 text-muted-foreground transition group-hover:text-primary', icon)}></span>
+  <span
+    class={cn('h-6 w-6 text-muted-foreground transition-all duration-300 ease-out', 'group-hover:text-primary group-hover:rotate-6', icon)}
+  ></span>
   {
     count !== undefined && (
-      <span class="text-muted-foreground text-sm group-hover:text-primary">
+      <span class="text-muted-foreground text-sm transition-colors duration-300 group-hover:text-primary">
         <NumberTicker play value={count} label={label} client:load githubUser={githubUser} />
       </span>
     )

@@ -1,5 +1,5 @@
 import React from 'react'
-import { motion } from 'framer-motion'
+import { motion } from 'motion/react'
 import type { Photo, PolaroidVariant } from '~/types'
 import { cn } from '~/lib/utils'
 
@@ -70,7 +70,7 @@ const PolaroidCard: React.FC<Props> = ({ photo, index, totalPhotos, rotation, va
               // 点击时禁用 hover 效果
               x: moveDistance, // 根据位置动态移动距离
               scale: 1.2,
-              rotate: 0, // hover时取消倾斜，回到水平
+              rotate: 0, // hover时取消倾斜，回到水平，
               transition: {
                 type: 'tween',
                 stiffness: 1360,
@@ -81,7 +81,15 @@ const PolaroidCard: React.FC<Props> = ({ photo, index, totalPhotos, rotation, va
       }
     >
       <div className="w-full h-full bg-gray-100 overflow-hidden">
-        <img src={imgSrc} width={imgWidth} height={imgHeight} className="w-full h-full object-cover" loading="lazy" alt={photo.alt} />
+        <img
+          src={imgSrc}
+          width={imgWidth}
+          height={imgHeight}
+          className="w-full h-full object-cover"
+          loading="lazy"
+          decoding="async"
+          alt={photo.alt}
+        />
       </div>
     </motion.div>
   )

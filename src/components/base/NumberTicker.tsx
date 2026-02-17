@@ -1,5 +1,5 @@
 import { cn } from '~/lib/utils'
-import { motion, useMotionValue, useSpring } from 'framer-motion'
+import { motion, useMotionValue, useSpring } from 'motion/react'
 import { useEffect, useRef, useState } from 'react'
 import { getGithubFollowers, getGithubRepoStats } from '~/lib/github'
 
@@ -68,6 +68,12 @@ export default function NumberTicker({
 
     return () => clearTimeout(timer)
   }, [motionValue, play, delay, value, direction])
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.textContent = `${Intl.NumberFormat('en-US').format(direction === 'down' ? value : 0)} ${label ? label : ''}`
+    }
+  }, [])
 
   useEffect(() => {
     const unsubscribe = springValue.on('change', (latest) => {

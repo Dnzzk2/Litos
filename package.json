@@ -1,7 +1,7 @@
 {
   "name": "litos",
   "type": "module",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "MIT",
   "scripts": {
     "dev": "astro dev",
@@ -19,9 +19,9 @@
     "@nanostores/react": "^0.8.4",
     "astro": "^5.6.1",
     "clsx": "^2.1.1",
-    "framer-motion": "^12.5.0",
     "gitalk": "^1.8.0",
     "medium-zoom": "^1.1.0",
+    "motion": "^12.34.1",
     "nanostores": "^0.11.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
