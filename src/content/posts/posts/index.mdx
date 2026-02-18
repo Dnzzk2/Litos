@@ -1,5 +1,5 @@
 ---
-title: 'Litos: Posts Page Config'
+title: 'Posts Page Config'
 description: 'Complete Posts configuration: fields, list styles, post metadata layouts, OG image handling, frontmatter examples, markdown syntax, and expressive-code config.'
 pubDate: 2025-08-13
 author: 'Dnzzk2'
@@ -417,3 +417,76 @@ export default defineEcConfig({
 ```
 
 You can go to the website to view the configuration options of expressive-code.
+
+---
+
+### Comment System (Gitalk)
+
+The theme has a built-in :link[Gitalk]{id=https://github.com/gitalk/gitalk} comment system that uses GitHub Issues as the comment backend. Each post automatically gets its own issue for comments.
+
+#### Prerequisites
+
+You need to create a **GitHub OAuth App** first:
+
+1. Go to :link[GitHub Developer Settings]{id=https://github.com/settings/developers} → **OAuth Apps** → **New OAuth App**.
+2. Fill in the form:
+   - **Application name**: Any name (e.g. `My Blog Comments`)
+   - **Homepage URL**: Your site URL (e.g. `https://yourdomain.com`)
+   - **Authorization callback URL**: Same as your site URL
+3. After creation, copy the **Client ID** and generate a **Client Secret**.
+4. Create a **public repository** on GitHub to store comment issues (e.g. `blog-comments`).
+
+#### Configuration
+
+Configure the comment system in `src/config.ts`:
+
+```ts title="config.ts"
+export const COMMENT_CONFIG: CommentConfig = {
+  enabled: true,
+  system: 'gitalk',
+  gitalk: {
+    clientID: import.meta.env.PUBLIC_GITHUB_CLIENT_ID,
+    clientSecret: import.meta.env.PUBLIC_GITHUB_CLIENT_SECRET,
+    repo: 'blog-comments',
+    owner: 'YourGitHubUsername',
+    admin: ['YourGitHubUsername'],
+    language: 'en-US',
+    perPage: 5,
+    pagerDirection: 'last',
+    createIssueManually: false,
+    distractionFreeMode: false,
+    enableHotKey: true,
+  },
+}
+```
+
+Then set the environment variables. Create a `.env` file in the project root (refer to `.env.example`):
+
+```bash title=".env"
+PUBLIC_GITHUB_CLIENT_ID=your-github-client-id
+PUBLIC_GITHUB_CLIENT_SECRET=your-github-client-secret
+```
+
+#### Config Properties
+
+| Property            | Description                                                                                   |
+| ------------------- | --------------------------------------------------------------------------------------------- |
+| enabled             | Whether to enable the comment system.                                                         |
+| system              | Comment system to use. Options: `gitalk`, `none`.                                             |
+| clientID            | GitHub OAuth App Client ID.                                                                   |
+| clientSecret        | GitHub OAuth App Client Secret.                                                               |
+| repo                | The GitHub repository name for storing comment issues.                                        |
+| owner               | The GitHub username of the repository owner.                                                  |
+| admin               | Array of GitHub usernames who can initialize comment issues.                                  |
+| language            | Display language. e.g. `en-US`, `zh-CN`, `zh-TW`.                                             |
+| perPage             | Number of comments per page.                                                                  |
+| pagerDirection      | Comment sorting direction. `last` (newest first) or `first` (oldest first).                   |
+| createIssueManually | If `true`, issues must be created manually. If `false`, auto-created on first visit by admin. |
+| distractionFreeMode | If `true`, enables full-screen overlay when typing a comment.                                 |
+| enableHotKey        | Whether to enable `Cmd/Ctrl + Enter` shortcut to submit comments.                             |
+
+> [!NOTE]
+> To disable comments entirely, set `enabled: false` or `system: 'none'` in `COMMENT_CONFIG`.
+
+> [!CAUTION]
+> The `clientID` and `clientSecret` are read from environment variables via `import.meta.env`. Make sure to add `.env` to your `.gitignore` file (already included by default) to avoid leaking secrets.

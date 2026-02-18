@@ -1,5 +1,5 @@
 ---
-title: 'Litos: How to get started with this theme'
+title: 'How to get started with this theme'
 description: 'Quick start for the Litos theme: prerequisites, fork-or-template setup, and next steps.'
 pubDate: 2025-08-15
 author: 'Dnzzk2'
@@ -31,6 +31,37 @@ There are two ways to do this:
 - :link[Use this template]{id=https://github.com/Dnzzk2/Litos/generate} - In the future, content-free branches will be launched, which do not require deleting and replacing content.
 
 After you have your own repository, you can clone it to your local machine.
+
+### Update Theme
+
+When the theme releases a new version, you can pull the latest changes without losing your content by following these steps:
+
+**1. Add upstream remote (only needed once)**
+
+```bash
+git remote add upstream https://github.com/Dnzzk2/Litos.git
+```
+
+**2. Fetch and merge the latest theme**
+
+```bash
+git fetch upstream
+git merge upstream/main --no-edit
+```
+
+**3. Resolve conflicts (if any)**
+
+Conflicts typically only occur in files you have modified, such as `src/config.ts`. In that case, just keep your own configuration and accept the rest of the theme updates.
+
+> [!TIP]
+> To minimize conflicts, try to only modify the following files:
+>
+> - `src/config.ts` — Site configuration
+> - `src/content/` — Your posts and projects
+> - `public/` — Your static assets (favicon, images, etc.)
+> - `.env` — Environment variables
+>
+> Avoid modifying theme source files (components, styles, layouts) directly. This ensures smooth updates every time.
 
 ### End
 

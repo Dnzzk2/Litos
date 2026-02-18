@@ -1,8 +1,5 @@
-
 <div align="center">
 <img src="./src/assets/readme/logo.png" width="400" alt="Litos Logo" />
-
-# Litos
 
 ![License](https://img.shields.io/github/license/Dnzzk2/Litos?color=blue&style=flat-square)
 ![Astro](https://img.shields.io/badge/Astro-v5.0-orange?style=flat-square&logo=astro)
@@ -11,6 +8,8 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-v5.0-blue?style=flat-square&logo=typescript)
 
 **A modern, elegant, and performance-focused blogging theme built for developers.**
+
+**English** | [简体中文](./README.zh-CN.md)
 
 [Demo](https://litos.vercel.app/) · [Report Bug](https://github.com/Dnzzk2/Litos/issues) · [Request Feature](https://github.com/Dnzzk2/Litos/issues)
 
