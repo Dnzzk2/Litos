@@ -25,29 +25,30 @@ Litos 是一个使用 **Astro**、**React** 和 **TailwindCSS** 精心打造的�
 
 ## 主要特性
 
-- **现代架构**：基于 Astro 5 实现极速性能，搭配 React 19 提供动态交互。
-- **优雅设计**：使用 TailwindCSS 4 精心打造的全响应式 UI。
-- **丰富的内容支持**：
-  - **文章**：多种布局选项（紧凑式、封面图），支持丰富的 Markdown 语法。
-  - **项目**：专属项目展示区域，支持标签筛选。
-  - **相册**：精美的瀑布流布局，展示你的摄影作品。
-- **开发者友好**：
-  - **技能展示**：可视化配置的技术栈展示。
-  - **代码高亮**：集成 Expressive Code，提供精美的语法高亮。
-  - **数学公式**：支持 KaTeX 渲染数学公式。
-- **集成功能**：
-  - **评论系统**：集成 Gitalk，基于 GitHub 的评论功能。
-  - **SEO**：内置站点地图、robots.txt 和 Meta 标签支持。
-  - **数据分析**：可配置 Vercount 和 Umami 分析服务。
-  - **暗色模式**：原生支持明暗主题切换。
+- **现代架构** — 基于 Astro 5 实现极速性能，搭配 React 19 提供动态交互。
+- **优雅设计** — 使用 TailwindCSS 4 精心打造的全响应式 UI。
+- **文章** — 多种布局选项（紧凑式、封面图），支持丰富的 Markdown 语法。
+- **项目** — 专属项目展示区域，支持标签筛选。
+- **相册** — 精美的瀑布流布局，展示你的摄影作品。
+- **技能展示** — 可视化配置的技术栈展示。
+- **代码高亮** — 集成 Expressive Code，提供精美的语法高亮。
+- **数学公式** — 支持 KaTeX 渲染数学公式。
+- **评论系统** — 集成 Gitalk，基于 GitHub 的评论功能。
+- **SEO** — 内置站点地图、robots.txt 和 Meta 标签支持。
+- **数据分析** — 可配置 Vercount 和 Umami 分析服务。
+- **暗色模式** — 原生支持明暗主题切换。
+
+## 部署
+
+一键部署你的 Litos 博客：
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Dnzzk2/Litos)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Dnzzk2/Litos)
 
 ## 快速开始
 
-按照以下步骤在本地搭建 Litos 项目。
-
 ### 环境要求
 
-请确保你的设备已安装：
 - **Node.js**（v18 或更高版本）
 - **pnpm**（推荐的包管理器）
 
@@ -76,10 +77,9 @@ Litos 是一个使用 **Astro**、**React** 和 **TailwindCSS** 精心打造的�
 
 ## 配置
 
-Litos 的设计理念是易于配置。主要配置文件位于 `src/config.ts`。
+主要配置文件位于 `src/config.ts`。
 
 ### 站点设置
-修改 `SITE` 常量以更新基本站点信息：
 ```typescript
 export const SITE: Site = {
   title: 'Litos',
@@ -91,7 +91,6 @@ export const SITE: Site = {
 ```
 
 ### 功能开关
-你可以在配置文件中直接启用或禁用特定功能，如技能展示或 GitHub 集成：
 ```typescript
 export const SKILLSSHOWCASE_CONFIG = {
   SKILLS_ENABLED: true,

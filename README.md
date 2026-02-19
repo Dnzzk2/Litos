@@ -15,7 +15,6 @@
 
 </div>
 
-
 ## Introduction
 
 Litos is a comprehensive blogging theme crafted with **Astro**, **React**, and **TailwindCSS**. It is designed to provide developers with a clean, professional, and highly customizable platform to showcase their work, thoughts, and photography.
@@ -26,31 +25,32 @@ Unlike traditional themes, Litos emphasizes visual aesthetics without compromisi
 
 ## Key Features
 
-- **Modern Architecture**: Powered by Astro 5 for blazing fast performance and React 19 for dynamic interactivity.
-- **Elegant Design**: A fully responsive, meticulously crafted UI using TailwindCSS 4.
-- **Rich Content Support**:
-  - **Posts**: Multiple layout options (compact, cover image) with extensive markdown support.
-  - **Projects**: Dedicated section to showcase your portfolio with filterable tags.
-  - **Photos**: A beautiful masonry layout for your photography collections.
-- **Developer Centric**:
-  - **Skills Showcase**: Visually represented technical stack configuration.
-  - **Code Highlighting**: Integrated Expressive Code for beautiful syntax highlighting.
-  - **Mathematical Scripts**: Katex support for rendering math equations.
-- **Integrated Features**:
-  - **Comments**: Gitalk integration for GitHub-based comments.
-  - **SEO**: Built-in support for sitemaps, robots.txt, and meta tags.
-  - **Analytics**: Configurable support for Vercount and Umami analytics.
-  - **Dark Mode**: Native support for light and dark themes.
+- **Modern Architecture** — Astro 5 + React 19 for blazing fast performance and dynamic interactivity.
+- **Elegant Design** — Fully responsive, meticulously crafted UI with TailwindCSS 4.
+- **Posts** — Multiple layout options (compact, cover image) with rich Markdown support.
+- **Projects** — Dedicated portfolio section with filterable tags.
+- **Photos** — Beautiful masonry layout for photography collections.
+- **Skills Showcase** — Visually represented technical stack configuration.
+- **Code Highlighting** — Integrated Expressive Code for beautiful syntax highlighting.
+- **Math Support** — KaTeX for rendering mathematical equations.
+- **Comments** — Gitalk integration for GitHub-based discussions.
+- **SEO** — Built-in sitemaps, robots.txt, and meta tags.
+- **Analytics** — Configurable Vercount and Umami analytics.
+- **Dark Mode** — Native light and dark theme support.
+
+## Deploy
+
+Deploy your own Litos blog with one click:
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Dnzzk2/Litos)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/Dnzzk2/Litos)
 
 ## Getting Started
 
-Follow these simple steps to set up your Litos project locally.
-
 ### Prerequisites
 
-Ensure you have the following installed on your machine:
 - **Node.js** (v18 or higher)
-- **pnpm** (recommended package manager)
+- **pnpm** (recommended)
 
 ### Installation
 
@@ -77,10 +77,9 @@ Ensure you have the following installed on your machine:
 
 ## Configuration
 
-Litos is designed to be easily configurable. The primary configuration file is located at `src/config.ts`.
+The primary configuration file is located at `src/config.ts`.
 
 ### Site Settings
-Modify the `SITE` constant to update basic site information:
 ```typescript
 export const SITE: Site = {
   title: 'Litos',
@@ -92,7 +91,6 @@ export const SITE: Site = {
 ```
 
 ### Feature Toggles
-You can enable or disable specific features like the Skills Showcase or GitHub integration directly in the config file:
 ```typescript
 export const SKILLSSHOWCASE_CONFIG = {
   SKILLS_ENABLED: true,

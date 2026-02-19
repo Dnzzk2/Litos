@@ -1,13 +1,6 @@
 @font-face {
-  font-family: 'Numbers';
+  font-family: 'Geist';
   src: url('/fonts/GeistVF.woff2') format('woff2');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'CJKEmDash';
-  unicode-range: U+2014, U+2E3A-2E3B;
-  src: url('/fonts/ZhudouSansVF-subset.woff2') format('woff2');
   font-display: swap;
 }
 
@@ -33,8 +26,8 @@
 }
 
 :root {
-  --font-lexend: 'Lexend', 'CJKEmDash', 'Numbers', 'ShangguSansSC-VF', sans-serif;
-  --font-sans: 'CJKEmDash', 'Numbers', 'ShangguSansSC-VF', sans-serif;
+  --font-lexend: 'Lexend', 'Geist', 'ShangguSansSC-VF', sans-serif;
+  --font-sans: 'Geist', 'ShangguSansSC-VF', sans-serif;
   --font-geist-mono: 'GeistMono', 'Input Mono', 'Fira Code', 'ShangguSansSC-VF', monospace;
   --background: 255 100% 100%;
   --foreground: 225 15% 12%;

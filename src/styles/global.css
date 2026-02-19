@@ -34,18 +34,10 @@
 
 /* ===== 字体配置 ===== */
 @layer base {
-  /* 数字字体 */
+  /* Geist 字体 */
   @font-face {
-    font-family: 'Numbers';
+    font-family: 'Geist';
     src: url('/fonts/GeistVF.woff2') format('woff2');
-    font-display: swap;
-  }
-
-  /* 破折号字体 */
-  @font-face {
-    font-family: 'CJKEmDash';
-    unicode-range: U+2014, U+2E3A-2E3B;
-    src: url('/fonts/ZhudouSansVF-subset.woff2') format('woff2');
     font-display: swap;
   }
 
@@ -68,8 +60,8 @@
 @layer base {
   :root {
     /* 字体族 */
-    --font-lexend: 'Lexend', 'CJKEmDash', 'Numbers', 'ShangguSansSC-VF', ui-sans-serif, system-ui, sans-serif;
-    --font-sans: 'CJKEmDash', 'Numbers', 'ShangguSansSC-VF', ui-sans-serif, system-ui, sans-serif;
+    --font-lexend: 'Lexend', 'Geist', 'ShangguSansSC-VF', ui-sans-serif, system-ui, sans-serif;
+    --font-sans: 'Geist', 'ShangguSansSC-VF', ui-sans-serif, system-ui, sans-serif;
     --font-geist-mono: 'GeistMono', 'Input Mono', 'Fira Code', 'ShangguSansSC-VF', monospace;
 
     /* 基础色调 */
