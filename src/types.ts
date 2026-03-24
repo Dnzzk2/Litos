@@ -185,9 +185,10 @@ export type IconType = 'icon' | 'image'
  * - 1x1: 正方形比例
  * - 4x5: 标准拍立得比例
  * - 4x3: 横向比例
+ * - 3x4: 竖向比例
  * - 9x16: 竖向比例
  */
-export type PolaroidVariant = '1x1' | '4x5' | '4x3' | '9x16'
+export type PolaroidVariant = '1x1' | '4x5' | '4x3' | '3x4' | '9x16'
 
 /**
  * 图片配置接口 / Photo configuration interface

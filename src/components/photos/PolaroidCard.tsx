@@ -18,6 +18,7 @@ const polaroidVariants: Record<PolaroidVariant, string> = {
   '1x1': 'w-20 h-20',
   '4x5': 'w-20 h-24',
   '4x3': 'w-20 h-16',
+  '3x4': 'w-[4.5rem] h-24',
   '9x16': 'w-20 h-32',
 }
 

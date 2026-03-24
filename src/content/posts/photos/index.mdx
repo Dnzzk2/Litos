@@ -1,6 +1,6 @@
 ---
 title: 'Photos Page Config'
-description: 'Configure Photos page: page texts (PHOTOS_CONFIG), file locations, and usage examples.'
+description: 'Current implementation notes for the Photos page, including PHOTOS_CONFIG, PhotosList, and getPhotos().'
 pubDate: 2025-08-10
 author: 'Dnzzk2'
 cover: assets/cover.png
@@ -8,20 +8,29 @@ recommend: true
 tags: ['Litos', 'Documentation']
 ---
 
-The Photos page displays moments in a timeline with a polaroid-style gallery. This document explains how to configure page texts and how to add photo timelines.
+This document describes the current implementation of the Photos page.
 
-The following files are compatible with this document:
+## Current file structure
 
-- `src/pages/photos/index.astro` - photos page.
-- `src/components/photos` - timeline and polaroid gallery components.
-- `src/config.ts` - page config (`PHOTOS_CONFIG`) and `PhotosList` data.
-- `src/types.ts` - Type definitions for `PhotosConfig`, `PhotoData`, and `Photo`.
+- `src/pages/photos/index.astro`
+  - Reads page text from `PHOTOS_CONFIG`
+  - Reads timeline data from `PhotosList`
+- `src/config.ts`
+  - Stores `PHOTOS_CONFIG`
+- `src/lib/photos.ts`
+  - Stores `PhotosList`
+  - Auto-imports photo files
+  - Converts one folder of images into `Photo[]` with `getPhotos()`
+- `src/types.ts`
+  - Defines `PhotoData`, `Photo`, and `PolaroidVariant`
+- `src/components/photos/PolaroidCard.tsx`
+  - Maps each `variant` to the actual card size
 
-### Photos Page Config
+## Page text
 
-Configure page texts in `src/config.ts`:
+The page title and intro text come from `src/config.ts`.
 
-```ts title="config.ts"
+```ts title="src/config.ts"
 export const PHOTOS_CONFIG: PhotosConfig = {
   title: 'Photos',
   description: 'Here I will record some photos taken in daily life.',
@@ -29,79 +38,201 @@ export const PHOTOS_CONFIG: PhotosConfig = {
 }
 ```
 
-| Property    | Description                              |
-| ----------- | ---------------------------------------- |
-| title       | Title shown on the page and browser tab. |
-| description | The metadata description in the head.    |
-| introduce   | Intro text displayed under the title.    |
+`src/pages/photos/index.astro` renders the page like this:
 
-### Data Source: PhotosList
+```astro title="src/pages/photos/index.astro"
+---
+import { PHOTOS_CONFIG } from '~/config'
+import { PhotosList } from '~/lib/photos'
 
-The page reads data from `PhotosList` in `src/config.ts`. Each item in the array represents one timeline entry (a day, a trip, an album, etc.).
+const { title, description, introduce } = PHOTOS_CONFIG
+---
 
-```ts title="config.ts"
+<Layout {title} {description}>
+  <PageTitle {title} {introduce} />
+  <PhotoTimeline photoData={PhotosList} />
+</Layout>
+```
+
+## PhotosList
+
+`PhotosList` is defined in `src/lib/photos.ts`. Each item is one timeline entry.
+
+```ts title="src/lib/photos.ts"
 export const PhotosList: PhotoData[] = [
   {
-    title: "Friend's Adorable Cat",
-    icon: { type: 'emoji', value: '🌠' },
-    description: 'So kawaii (*^ω^*)',
-    date: '2025-06-21',
+    title: 'Ningbo - Botanical Garden',
+    icon: { type: 'emoji', value: '🌼' },
+    description: 'It was early spring, so I went to see the cherry blossoms.',
+    date: '2026-03-07',
     travel: '',
-    photos: [
-      { src: '/photos/cat1.webp', alt: "Friend's Adorable Cat", width: 1080, height: 810, variant: '4x3' },
-      { src: '/photos/cat2.webp', alt: "Friend's Adorable Cat", width: 1080, height: 810, variant: '4x3' },
-      { src: '/photos/cat3.webp', alt: "Friend's Adorable Cat", width: 1080, height: 810, variant: '4x3' },
-    ],
+    photos: getPhotos(
+      '2026-03-07-botanicalGarden',
+      'Early spring cherry blossoms at the botanical garden',
+      ['3x4', '3x4', '3x4', '3x4', '3x4', '3x4']
+    ),
   },
 ]
 ```
 
-#### PhotoData fields
+### PhotoData fields
 
-| Property    | Description                                                                            |
-| ----------- | -------------------------------------------------------------------------------------- |
-| title       | Title of the timeline item.                                                            |
-| icon        | Icon displayed on the left timeline axis. See the table below for supported formats.   |
-| description | Optional text shown below the title.                                                   |
-| date        | Display date string (free format).                                                     |
-| travel      | Optional additional label for travel/route info.                                       |
-| photos      | Array of `Photo` objects rendered as a polaroid stack and openable in a modal gallery. |
+| Field | Meaning |
+| --- | --- |
+| `title` | Timeline title |
+| `icon` | Left-side timeline icon |
+| `description` | Optional timeline description |
+| `date` | Timeline date |
+| `travel` | Optional extra label |
+| `photos` | Array of `Photo` objects |
 
-##### Icon object
+## How `getPhotos()` works
 
-`TimelineIconType` supports: `emoji` | `icon` | `color` | `number` | `image`
+Current implementation:
 
-| Property | Description                                                                |
-| -------- | -------------------------------------------------------------------------- |
-| type     | One of the supported types above.                                          |
-| value    | Emoji (e.g. '🌅'), icon name, color class, number text, or image URL/path. |
-| fallback | Optional fallback text when icon cannot be shown.                          |
+```ts title="src/lib/photos.ts"
+function getPhotos(dir: string, alt: string, variants: PolaroidVariant[]): Photo[] {
+  return Object.entries(photoModules)
+    .filter(([path]) => path.includes(`/${dir}/`))
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([, mod], index) => {
+      const img = mod.default
+      return {
+        src: img,
+        alt,
+        width: img.width,
+        height: img.height,
+        variant: variants[index] || '4x3',
+      }
+    })
+}
+```
 
-#### Photo fields
+### Parameter meaning
 
-| Property    | Description                                                        |
-| ----------- | ------------------------------------------------------------------ |
-| src         | Image path (recommend using files under `/public/photos`).         |
-| alt         | Image alt text.                                                    |
-| width       | Image intrinsic width.                                             |
-| height      | Image intrinsic height.                                            |
-| variant     | Polaroid layout variant: `1x1`、`4x5` 、`4x3``9x16`.               |
-| location    | Optional. Shooting location.                                       |
-| date        | Optional. Photo shooting date.                                     |
-| camera      | Optional. Shooting device.                                         |
-| description | Optional. Additional caption for the single image (used in modal). |
+| Parameter | Meaning |
+| --- | --- |
+| `dir` | Folder name under `src/assets/photos` |
+| `alt` | Shared `alt` text for every image returned from that folder |
+| `variants` | Ratio list matched to the sorted images by index |
 
-> [!TIP]
-> Variants control the polaroid aspect: `1x1` (square), `4x5` (classic polaroid), `4x3` (landscape), `9x16` (portrait).
+### Important behavior
 
-### How it renders
+1. `getPhotos()` first filters all imported images by folder name.
+2. It then sorts the matched file paths with `localeCompare`.
+3. It creates the final `Photo[]` in that sorted order.
+4. `variants[index]` is applied to the photo at the same index.
+5. If one index is missing in `variants`, that photo falls back to `'4x3'`.
 
-- Timeline and icons are rendered by `src/components/photos/PhotoTimeline.astro`.
-- Polaroid stack and modal gallery are handled by `PolaroidStack` / `PhotoGalleryModal`.
-- Clicking any photo opens a modal gallery. Hovering reveals a subtle spread animation.
+### How the third parameter is matched
 
-### Recommended practices
+The third parameter is not random metadata. It is position-based.
 
-- Optimize images (WebP/AVIF) and provide correct `width`/`height` to avoid layout shift.
-- Keep 3–6 photos per timeline item for a balanced stack effect.
-- Prefer consistent variants within one item for a neat layout.
+For this code:
+
+```ts title="src/lib/photos.ts"
+photos: getPhotos(
+  '2026-03-07-botanicalGarden',
+  'Early spring cherry blossoms at the botanical garden',
+  ['3x4', '3x4', '3x4', '3x4', '3x4', '3x4']
+)
+```
+
+Assume the folder `src/assets/photos/2026-03-07-botanicalGarden/` contains these files after sorting:
+
+```text
+01.webp
+02.webp
+03.webp
+04.webp
+05.webp
+06.webp
+```
+
+Then the mapping is:
+
+| File | Applied variant |
+| --- | --- |
+| `01.webp` | first item in the array -> `3x4` |
+| `02.webp` | second item in the array -> `3x4` |
+| `03.webp` | third item in the array -> `3x4` |
+| `04.webp` | fourth item in the array -> `3x4` |
+| `05.webp` | fifth item in the array -> `3x4` |
+| `06.webp` | sixth item in the array -> `3x4` |
+
+So if you want the first photo in the folder to use `3x4`, the first item in the third array must be `3x4`.
+
+If you want mixed ratios, write them in the same order as the sorted files:
+
+```ts
+photos: getPhotos('2025-03-01-dongqianhu', 'Ningbo - Dongqian Lake', ['4x5', '1x1', '4x3'])
+```
+
+That means:
+
+- first sorted image -> `4x5`
+- second sorted image -> `1x1`
+- third sorted image -> `4x3`
+
+If the folder contains more photos than the array length:
+
+```ts
+photos: getPhotos('example-folder', 'Example alt', ['3x4', '4x5'])
+```
+
+Then:
+
+- first sorted image -> `3x4`
+- second sorted image -> `4x5`
+- third sorted image and later -> default `4x3`
+
+## Supported variants
+
+`PolaroidVariant` is currently:
+
+```ts title="src/types.ts"
+export type PolaroidVariant = '1x1' | '4x5' | '4x3' | '3x4' | '9x16'
+```
+
+Current size mapping in `src/components/photos/PolaroidCard.tsx`:
+
+```ts title="src/components/photos/PolaroidCard.tsx"
+const polaroidVariants: Record<PolaroidVariant, string> = {
+  '1x1': 'w-20 h-20',
+  '4x5': 'w-20 h-24',
+  '4x3': 'w-20 h-16',
+  '3x4': 'w-[4.5rem] h-24',
+  '9x16': 'w-20 h-32',
+}
+```
+
+## How to add a new timeline entry
+
+1. Create a folder under `src/assets/photos/`, for example `2026-04-01-spring-walk`.
+2. Put image files into that folder.
+3. Make sure the file names are in the order you want after sorting.
+4. Add one item to `PhotosList` in `src/lib/photos.ts`.
+5. Pass the third argument to `getPhotos()` in the same order as the sorted files.
+
+Example:
+
+```ts title="src/lib/photos.ts"
+{
+  title: 'Spring Walk',
+  icon: { type: 'emoji', value: '🌿' },
+  description: 'A short walk with a camera.',
+  date: '2026-04-01',
+  travel: '',
+  photos: getPhotos(
+    '2026-04-01-spring-walk',
+    'Photos from a spring walk',
+    ['3x4', '4x3', '4x5', '4x3']
+  ),
+}
+```
+
+## Notes
+
+- `alt` is applied to every photo returned from the same folder.
+- The order is determined by sorted file path, not by import order in the editor.
+- If you rename files, the sort order may change, and the `variants` array will then map to different photos.
