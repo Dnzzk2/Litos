@@ -8,7 +8,7 @@ import { PhotosList } from '~/lib/photos'
 const { title, description, introduce } = PHOTOS_CONFIG
 ---
 
-<Layout {title} {description}>
+<Layout {title} {description} disableViewTransition>
   <div class="relative z-[1] py-8 pb-10 px-6 sm:px-8">
     <PageTitle {title} {introduce} />
     <div class="mt-12">

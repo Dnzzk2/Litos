@@ -120,7 +120,7 @@ const PhotoGalleryModal: React.FC<Props> = ({ photos, title, description, isOpen
       {isOpen && (
         <motion.div
           key="modal-backdrop"
-          className="fixed inset-0 z-[99999] flex items-center justify-center p-4"
+          className="fixed inset-0 z-99999 flex items-center justify-center p-4"
           onClick={onClose}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -129,7 +129,7 @@ const PhotoGalleryModal: React.FC<Props> = ({ photos, title, description, isOpen
         >
           {/* 遮罩层 */}
           <motion.div
-            className="absolute inset-0 bg-black/50 h-[100dvh]"
+            className="absolute inset-0 bg-black/50 h-dvh"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

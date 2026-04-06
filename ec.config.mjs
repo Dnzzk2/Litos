@@ -16,7 +16,7 @@ export default defineEcConfig({
     uiFontFamily: 'var(--font-sans)',
     uiFontSize: '1em',
     codeFontFamily: 'var(--font-mono)',
-    codeFontSize: '0.875rem',
+    codeFontSize: '0.85rem',
     codeLineHeight: '1.4',
     borderRadius: '0',
     codePaddingBlock: '0.8571429em',
@@ -44,5 +44,5 @@ export default defineEcConfig({
   themes: ['catppuccin-macchiato', 'catppuccin-latte'],
   themeCssSelector: (theme) => (theme.name === 'catppuccin-macchiato' ? '.dark' : ':root:not(.dark)'),
   useDarkModeMediaQuery: false,
-  useStyleReset: false,
+  emitExternalStylesheet: false,
 })

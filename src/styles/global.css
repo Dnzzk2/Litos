@@ -203,42 +203,99 @@
   }
 
   /* 主题切换动画 */
-  html.disable-transition,
-  html.disable-transition * {
+  /* 主题切换动画 */
+  html.disable-transition *:not(html) {
     transition: none !important;
-    view-transition-name: none !important;
-    --astro-view-transition: none !important;
+  }
+
+  /* 针对 Safari 隐藏底部遮罩 */
+  @supports (-webkit-hyphens: none) {
+    .safari-hidden {
+      display: none;
+    }
+  }
+}
+
+html.theme-transitioning {
+  view-transition-name: theme-transition !important;
+}
+
+::view-transition-old(theme-transition) {
+  animation: none !important;
+  mix-blend-mode: normal !important;
+  opacity: 1 !important;
+  z-index: 1 !important;
+}
+
+/* 变成深色（黑色从上往下压） */
+html.theme-to-dark::view-transition-new(theme-transition) {
+  animation: 600ms cubic-bezier(0.4, 0, 0.2, 1) theme-reveal-down !important;
+  mix-blend-mode: normal !important;
+  z-index: 9999 !important;
+}
+
+/* 变成浅色（白色从下往上盖，即黑幕拉起） */
+html.theme-to-light::view-transition-new(theme-transition) {
+  animation: 600ms cubic-bezier(0.4, 0, 0.2, 1) theme-reveal-up !important;
+  mix-blend-mode: normal !important;
+  z-index: 9999 !important;
+}
+
+@keyframes theme-reveal-down {
+  from {
+    clip-path: inset(0 0 100% 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes theme-reveal-up {
+  from {
+    clip-path: inset(100% 0 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
   }
 }
 
 /* ===== 滚动条样式 ===== */
-/* Firefox */
-@supports (scrollbar-width: auto) {
+/* 1. Firefox (标准属性) */
+@supports (scrollbar-width: thin) {
   * {
-    scrollbar-width: auto;
-    scrollbar-color: hsl(var(--scrollbar)) hsl(var(--scrollbar-bg));
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--scrollbar) / 0.4) transparent;
   }
 }
 
-/* Webkit */
-@supports selector(::-webkit-scrollbar) {
-  ::-webkit-scrollbar {
-    width: 8px;
-  }
-  ::-webkit-scrollbar:horizontal {
-    height: 8px;
-  }
-  ::-webkit-scrollbar-track {
-    border-radius: 10px;
-    background: hsl(var(--scrollbar-bg));
-  }
-  ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    background: hsl(var(--scrollbar));
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--scrollbar) / 0.8);
-  }
+/* 2. Chrome, Edge, Safari (Webkit) */
+::-webkit-scrollbar {
+  width: 8px; /* 纵向滚动条宽度 */
+  height: 8px; /* 横向滚动条高度 */
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* 轨道背景建议透明，保持简洁 */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--scrollbar) / 0.4); /* 默认半透明，不突兀 */
+  border-radius: 20px; /* 超大圆角 */
+  border: 2px solid transparent; /* 关键：透明边框制造滑块内缩的“悬浮”感 */
+  background-clip: content-box; /* 配合透明边框，让滑块缩在中间 */
+  transition: background-color 0.2s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(var(--scrollbar) / 0.8); /* 悬浮时加深颜色 */
+}
+
+/* 针对深色代码块的特殊处理 - 确保对比度 */
+pre::-webkit-scrollbar-thumb {
+  background-color: hsl(var(--foreground) / 0.2);
+}
+pre::-webkit-scrollbar-thumb:hover {
+  background-color: hsl(var(--foreground) / 0.4);
 }
 
 .no-scrollbar {

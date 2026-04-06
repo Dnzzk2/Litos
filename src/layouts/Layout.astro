@@ -12,13 +12,14 @@ type Props = {
   title: string
   description: string
   image?: string
+  disableViewTransition?: boolean
 }
 
-const { title, description, image }: Props = Astro.props
+const { title, description, image, disableViewTransition }: Props = Astro.props
 ---
 
 <!doctype html>
-<html lang={SITE.lang} transition:name="root" transition:animate={SITE.transition ? 'fade' : 'none'}>
+<html lang={SITE.lang} transition:name="root" transition:animate={SITE.transition && !disableViewTransition ? 'fade' : 'none'}>
   <head>
     <Head title={`${title} | ${SITE.title}`} {description} {image} />
   </head>
@@ -30,5 +31,9 @@ const { title, description, image }: Props = Astro.props
       </main>
     </div>
     <Footer />
+    <div
+      class="safari-hidden pointer-events-none bg-white dark:bg-black fixed z-50 bottom-0 left-0 h-28 [mask-image:linear-gradient(transparent,#000000)] w-full"
+    >
+    </div>
   </body>
 </html>
