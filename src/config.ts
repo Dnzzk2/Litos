@@ -23,6 +23,7 @@ export const SITE: Site = {
   author: 'Dnzzk2',
   ogImage: '/og-image.webp',
   transition: false,
+  themeAnimation: true,
 }
 
 export const HEADER_LINKS: Link[] = [

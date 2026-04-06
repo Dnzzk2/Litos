@@ -36,7 +36,7 @@ const { photoData, class: className } = Astro.props
               )}
             </p>
             <div class="mt-4 py-2 sm:py-4">
-              <PolaroidStack photos={timeline.photos} title={timeline.title} description={timeline.description} client:load />
+              <PolaroidStack photos={timeline.photos} title={timeline.title} description={timeline.description} client:visible />
             </div>
           </div>
         </div>

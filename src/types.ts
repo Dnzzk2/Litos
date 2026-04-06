@@ -10,6 +10,7 @@ import type { ImageMetadata } from 'astro'
  * @property {string} website - 网站地址 / Website address
  * @property {string} ogImage - OGP 图片地址 / OGP image address
  * @property {boolean} transition - 是否启用过渡动画 / Whether to enable transition animation
+ * @property {boolean} themeAnimation - 是否启用主题动画 / Whether to enable theme animation
  */
 export type Site = {
   title: string
@@ -20,6 +21,7 @@ export type Site = {
   website: string
   ogImage: string
   transition: boolean
+  themeAnimation: boolean
 }
 
 /**

@@ -1,7 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { motion, useAnimation } from 'motion/react'
 import { useStore } from '@nanostores/react'
-import { themeStore } from '~/stores/theme'
+import { themeStore, type Theme } from '~/stores/theme'
+
+declare global {
+  interface Window {
+    __theme?: {
+      applyTheme: (theme: Theme, options?: { disableTransition?: boolean }) => void
+      getStoredTheme: () => Theme
+      setTheme: (theme: Theme, options?: { disableTransition?: boolean }) => void
+    }
+  }
+}
 
 const iconVariants = {
   visible: {
@@ -17,62 +27,34 @@ const iconVariants = {
 }
 
 const ThemeToggle = () => {
-  const [mounted, setMounted] = useState(false)
   const theme = useStore(themeStore)
   const controlsSun = useAnimation()
   const controlsMoon = useAnimation()
   const controlsSystem = useAnimation()
 
   useEffect(() => {
-    setMounted(true)
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | 'system'
-    themeStore.set(savedTheme || 'system')
-  }, [])
-
-  useEffect(() => {
-    if (!mounted) return
-
     if (theme === 'system') {
       controlsSun.start('hidden')
       controlsSystem.start('visible')
       controlsMoon.start('hidden')
-    } else {
-      controlsSun.start(theme === 'light' ? 'visible' : 'hidden')
-      controlsMoon.start(theme === 'dark' ? 'visible' : 'hidden')
-      controlsSystem.start('hidden')
+      return
     }
 
-    localStorage.setItem('theme', theme)
-    applyTheme(theme)
-  }, [theme, mounted, controlsSun, controlsMoon, controlsSystem])
-
-  const applyTheme = (newTheme: string) => {
-    const root = document.documentElement
-
-    // 添加过渡类
-    root.classList.add('disable-transition')
-
-    const isDark = newTheme === 'dark' || (newTheme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)
-    root.classList.toggle('dark', isDark)
-
-    const metaThemeColor = document.querySelector('meta[name="theme-color"]')
-    if (metaThemeColor) {
-      metaThemeColor.setAttribute('content', isDark ? '#09090b' : '#FFFFFF')
-    }
-
-    // 移除过渡类
-    setTimeout(() => {
-      root.classList.remove('disable-transition')
-    }, 300)
-  }
+    controlsSun.start(theme === 'light' ? 'visible' : 'hidden')
+    controlsMoon.start(theme === 'dark' ? 'visible' : 'hidden')
+    controlsSystem.start('hidden')
+  }, [theme, controlsSun, controlsMoon, controlsSystem])
 
   const handleClick = () => {
-    const themeMap = {
+    const themeMap: Record<Theme, Theme> = {
       light: 'dark',
       dark: 'system',
       system: 'light',
     }
-    themeStore.set(themeMap[theme] as 'light' | 'dark' | 'system')
+    const nextTheme = themeMap[theme]
+
+    themeStore.set(nextTheme)
+    window.__theme?.setTheme(nextTheme)
   }
 
   return (

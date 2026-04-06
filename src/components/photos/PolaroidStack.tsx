@@ -13,33 +13,68 @@ interface Props {
 }
 
 // 生成随机旋转角度
-const generateRotations = (count: number) => Array.from({ length: count }, () => Math.random() * 20 - 10) // -10 to +10 degrees
+const generateRotations = (count: number) => Array.from({ length: count }, () => Math.random() * 20 - 10)
 
 const PolaroidStack: React.FC<Props> = ({ photos, title, description, className }) => {
   const ref = React.useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.4 })
   const [isModalOpen, setIsModalOpen] = React.useState(false)
+  const [shouldRenderModal, setShouldRenderModal] = React.useState(false)
   const [selectedPhotoIndex, setSelectedPhotoIndex] = React.useState(0)
   const [clickedPhotoIndex, setClickedPhotoIndex] = React.useState<number | null>(null)
+  const openTimerRef = React.useRef<number | null>(null)
+  const closeTimerRef = React.useRef<number | null>(null)
 
   // 为每张照片生成固定的旋转角度
   const photoRotations = React.useMemo(() => generateRotations(photos.length), [photos.length])
 
   const handlePhotoClick = (index: number) => {
-    setClickedPhotoIndex(index) // 立即标记为点击状态
+    if (closeTimerRef.current) {
+      window.clearTimeout(closeTimerRef.current)
+      closeTimerRef.current = null
+    }
+
+    if (openTimerRef.current) {
+      window.clearTimeout(openTimerRef.current)
+      openTimerRef.current = null
+    }
+
+    setShouldRenderModal(true)
+    setClickedPhotoIndex(index)
     setSelectedPhotoIndex(index)
-    setTimeout(() => {
+
+    openTimerRef.current = window.setTimeout(() => {
       setIsModalOpen(true)
-    }, 50) // 等待模态框动画结束
+      openTimerRef.current = null
+    }, 50)
   }
 
   const handleModalClose = () => {
+    if (openTimerRef.current) {
+      window.clearTimeout(openTimerRef.current)
+      openTimerRef.current = null
+    }
+
     setIsModalOpen(false)
-    // 模态框关闭后重置点击状态
-    setTimeout(() => {
+
+    closeTimerRef.current = window.setTimeout(() => {
       setClickedPhotoIndex(null)
-    }, 200) // 等待模态框动画结束
+      setShouldRenderModal(false)
+      closeTimerRef.current = null
+    }, 200)
   }
+
+  React.useEffect(() => {
+    return () => {
+      if (openTimerRef.current) {
+        window.clearTimeout(openTimerRef.current)
+      }
+
+      if (closeTimerRef.current) {
+        window.clearTimeout(closeTimerRef.current)
+      }
+    }
+  }, [])
 
   return (
     <>
@@ -59,14 +94,16 @@ const PolaroidStack: React.FC<Props> = ({ photos, title, description, className 
         ))}
       </motion.div>
 
-      <PhotoGalleryModal
-        photos={photos}
-        title={title}
-        description={description}
-        isOpen={isModalOpen}
-        onClose={handleModalClose}
-        initialIndex={selectedPhotoIndex}
-      />
+      {shouldRenderModal && (
+        <PhotoGalleryModal
+          photos={photos}
+          title={title}
+          description={description}
+          isOpen={isModalOpen}
+          onClose={handleModalClose}
+          initialIndex={selectedPhotoIndex}
+        />
+      )}
     </>
   )
 }
