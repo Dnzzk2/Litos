@@ -3,15 +3,18 @@ import { cn } from '~/lib/utils'
 ---
 
 <div class={cn('fixed inset-0 mx-0 max-w-none hidden overflow-hidden md:block pointer-events-none dark:opacity-100')}>
-  <div class="absolute left-1/2 top-[-14.5px] ml-[-41.5rem] h-[25rem] w-[80rem] dark:[mask-image:linear-gradient(white,transparent)]">
+  <div class="absolute left-1/2 top-[-14.5px] ml-[-41.5rem] h-[25rem] w-[80rem]">
+    <!-- Blue glow -->
     <div
-      class="absolute inset-0 bg-gradient-to-r from-blue-400/25 to-blue-800/25 opacity-40 [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] dark:from-blue-500/30 dark:to-blue-800/30 dark:opacity-100"
+      class="absolute inset-0 z-[2] bg-gradient-to-r from-blue-400/25 to-blue-800/25 opacity-40 [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] dark:from-blue-500/30 dark:to-blue-800/30 dark:opacity-100"
     >
     </div>
+
+    <!-- Background shape -->
     <svg
       viewBox="0 0 1113 440"
       aria-hidden="true"
-      class="absolute left-1/2 top-0 ml-[-19rem] w-[69.5625rem] fill-background dark:fill-zinc-950 blur-[26px]"
+      class="absolute left-1/2 top-0 z-0 ml-[-19rem] w-[69.5625rem] fill-background dark:fill-zinc-950 blur-[26px]"
     >
       <path d="M.016 439.5s-9.5-300 434-300S882.516 20 882.516 20V0h230.004v439.5H.016Z"></path>
     </svg>
