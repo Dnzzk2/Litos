@@ -11,7 +11,7 @@ const { skillsData }: Props = Astro.props
 const duplicateSkills = (skills: Skill[]) => [...skills, ...skills, ...skills, ...skills]
 ---
 
-<div class="skills-container relative py-2 px-2 max-md:px-0 perspective-[1500px]">
+<div class="skills-container relative py-2 px-2 max-md:px-0 perspective-[1500px] [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
   {
     skillsData.map((row: SkillData) => {
       const duplicatedSkills = duplicateSkills(row.skills)
@@ -45,9 +45,6 @@ const duplicateSkills = (skills: Skill[]) => [...skills, ...skills, ...skills, .
       )
     })
   }
-
-  <div class="pointer-events-none absolute left-0 top-0 w-[10%] h-full bg-gradient-to-r from-background to-transparent z-10"></div>
-  <div class="pointer-events-none absolute right-0 top-0 w-[10%] h-full bg-gradient-to-l from-background to-transparent z-10"></div>
 </div>
 
 <style is:global>
