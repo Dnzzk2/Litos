@@ -11,7 +11,7 @@ const { skillsData }: Props = Astro.props
 const duplicateSkills = (skills: Skill[]) => [...skills, ...skills, ...skills, ...skills]
 ---
 
-<div class="skills-container relative py-2 px-2 max-md:px-0 perspective-[1500px]">
+<div class="skills-container relative isolate py-2 px-2 max-md:px-0 perspective-[1500px]">
   {
     skillsData.map((row: SkillData) => {
       const duplicatedSkills = duplicateSkills(row.skills)
@@ -46,8 +46,8 @@ const duplicateSkills = (skills: Skill[]) => [...skills, ...skills, ...skills, .
     })
   }
 
-  <div class="pointer-events-none absolute left-0 top-0 w-[10%] h-full bg-gradient-to-r from-background to-transparent z-10"></div>
-  <div class="pointer-events-none absolute right-0 top-0 w-[10%] h-full bg-gradient-to-l from-background to-transparent z-10"></div>
+  <div class="skills-blur skills-blur-left pointer-events-none absolute left-0 top-0 w-[10%] h-full z-10"></div>
+  <div class="skills-blur skills-blur-right pointer-events-none absolute right-0 top-0 w-[10%] h-full z-10"></div>
 </div>
 
 <style is:global>
@@ -90,4 +90,25 @@ const duplicateSkills = (skills: Skill[]) => [...skills, ...skills, ...skills, .
   .skill-inner:hover {
     background: hsl(var(--tag-bg-hover));
   }
+
+  .skills-container {
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, #000 10%, #000 90%, transparent 100%);
+  }
+
+  .skills-blur {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .skills-blur-left {
+    -webkit-mask-image: linear-gradient(to right, #000 0%, transparent 100%);
+    mask-image: linear-gradient(to right, #000 0%, transparent 100%);
+  }
+
+  .skills-blur-right {
+    -webkit-mask-image: linear-gradient(to left, #000 0%, transparent 100%);
+    mask-image: linear-gradient(to left, #000 0%, transparent 100%);
+  }
+
 </style>
